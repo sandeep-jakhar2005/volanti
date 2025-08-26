@@ -1,6 +1,6 @@
-@component('shop::emails.layouts.master')
+<?php $__env->startComponent('shop::emails.layouts.master'); ?>
 
-@push('css')
+ <?php $__env->startPush('css'); ?>
     <style>
         /* Reset some default styles to ensure consistency */
         body,
@@ -103,8 +103,7 @@
             }
         }
     </style>
-@endpush
-
+<?php $__env->stopPush(); ?>
 <table class="wrapper" style="margin: auto;width:100%;max-width:90%;">
 
             <tr
@@ -116,8 +115,8 @@
             ">
             <td colspan="2" style="text-align: center !important; width: 100%; display: block">
                 <div style="text-align: center;">
-                    <a href="{{ route('shop.home.index') }}">
-                        {{-- @include ('shop::emails.layouts.logo') --}}
+                    <a href="<?php echo e(route('shop.home.index')); ?>">
+                        
                         <img style="width: 100%;
                         max-width: 300px;
                         display: block;
@@ -149,21 +148,17 @@
                     Thank you for your order!
                 </h1>
             
-                 <div style="font-size: 20px; color: #242424; line-height: 30px; margin-bottom: 34px;padding-top:5px;">
+                <div style="font-size: 20px; color: #242424; line-height: 30px; margin-bottom: 34px;padding-top:5px;">
                 <p style="font-size: 16px; color: #5E5E5E; line-height: 24px;">
-                    {{ __('shop::app.mail.order.dear', [
-                        'customer_name' => 
-                            (!empty($order['customer_first_name'] ?? '') && !empty($order['customer_last_name'] ?? ''))
-                                ? ($order['customer_first_name'] ?? '') . ' ' . ($order['customer_last_name'] ?? '')
-                                : ($fboDetails->full_name ?? 'Customer')
-                    ]) }}
+                    Dear Admin,
                 </p>
 
                 <p style="font-size: 16px; color: #5E5E5E; line-height: 24px;">
-                    {!! __('shop::app.mail.order.order_greeting', [
-                        'order_id' => '<span style="color: rgb(26, 106, 233); font-weight: bold;">#' . ($order['increment_id'] ?? 'N/A') . '</span>',
-                        'created_at' => core()->formatDate($order['created_at'] ?? now(), 'm-d-Y H:i:s'),
-                    ]) !!}
+                    We are pleased to inform you that a new order has been placed on our website. Below are the details of
+                the
+                order: <span style="color: rgb(26, 106, 233)">#<?php echo e($order['increment_id']); ?></span>,
+                <?php echo e(core()->formatDate($order['created_at'], 'm-d-Y H:i:s')); ?>
+
                 </p>
             </div>
             </td>
@@ -172,63 +167,10 @@
         <td colspan="3" style="width: 100%">
             <div
                 style="
-            border-top: 1px dotted black;
+              border-top: 1px dotted black;
               border-bottom: 1px dotted black;
               padding: 0;
-            ">
-                <h3 style="padding: 15px 0px;font-weight: bold;margin: 0px;font-size: 20px;">
-                    Billing Address
-                </h3>
-            </div>
-        </td>
-    </tr>
-    <tr style="background: #f6f6f6;padding: 20px;display: block;vertical-align: text-top;">
-        <td style="padding: 20px;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                    <td style="font-weight: 600; font-size: 14px;" colspan="3">
-                        Order No: {{ $order['increment_id'] }}
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" style="padding-bottom: 15px;">
-                        Order Date & Time: {{ date('m-d-Y h:i:s A', strtotime($order['created_at'] )) }}
-                    </td>
-                </tr>
-                <tr>
-                    <!-- Account Information -->
-                    <td width="30%" valign="top" style="padding-right: 10px;">
-                        <p style="font-size: 15px; font-weight: bold; margin: 0 0 5px;">{{ __('shop::app.fbo-detail.client-info') }}</p>
-                        <p style="margin: 0;">{{ $order['fbo_full_name'] ?? 'N/A' }}</p>
-                        <p style="margin: 0;">{{ $order['fbo_email_address'] ?? 'N/A' }}</p>
-                        <p style="margin: 0;">{{ $order['fbo_phone_number'] ?? 'N/A' }}</p>
-                    </td>
-
-                    <!-- Address -->
-                    <td width="30%" valign="top" style="padding: 0 10px;">
-                        <p style="font-size: 15px; font-weight: bold; margin: 0 0 5px;">Address</p>
-                        <p style="margin: 0;">{{ $order['shipping_address']['airport_name'] ?? 'N/A' }}</p>
-                        <p style="margin: 0;">{{ $order['shipping_address']['address1'] ?? 'N/A' }}</p>
-                    </td>
-
-                    <!-- Aircraft Information -->
-                    <td width="30%" valign="top" style="padding-left: 10px;">
-                        <p style="font-size: 15px; font-weight: bold; margin: 0 0 5px;">{{ __('shop::app.fbo-detail.aircraft-info') }}</p>
-                        <p style="margin: 0;">{{ $order['fbo_tail_number'] ?? 'N/A' }}</p>
-                        <p style="margin: 0;">{{ $order['fbo_packaging'] ?? 'N/A' }}</p>
-                        <p style="margin: 0;">{{ $order['fbo_service_packaging'] ?? 'N/A' }}</p>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-        <tr>
-        <td colspan="3" style="width: 100%">
-            <div
-                style="
-            border-top: 1px dotted black;
-              border-bottom: 1px dotted black;
-              padding: 0;
+              text-align: center;
             ">
                 <h3 style="padding: 15px 0px;font-weight: bold;margin: 0px;font-size: 20px;">
                     Order Details
@@ -236,6 +178,48 @@
             </div>
         </td>
     </tr>
+<tr style="background: #f6f6f6;padding: 20px;display: block;vertical-align: text-top;">
+    <td style="padding: 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td style="font-weight: 600; font-size: 14px;" colspan="3">
+                    Order No: <?php echo e($order['increment_id']); ?>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding-bottom: 15px;">
+                    Order Date & Time: <?php echo e(date('m-d-Y h:i:s A', strtotime($order['created_at'] ))); ?>
+
+                </td>
+            </tr>
+            <tr>
+                <!-- Account Information -->
+                <td width="30%" valign="top" style="padding-right: 10px;">
+                    <p style="font-size: 15px; font-weight: bold; margin: 0 0 5px;"><?php echo e(__('shop::app.fbo-detail.client-info')); ?></p>
+                    <p style="margin: 0;"><?php echo e($order['fbo_full_name'] ?? 'N/A'); ?></p>
+                    <p style="margin: 0;"><?php echo e($order['fbo_email_address'] ?? 'N/A'); ?></p>
+                    <p style="margin: 0;"><?php echo e($order['fbo_phone_number'] ?? 'N/A'); ?></p>
+                </td>
+
+                <!-- Address -->
+                <td width="30%" valign="top" style="padding: 0 10px;">
+                    <p style="font-size: 15px; font-weight: bold; margin: 0 0 5px;">Address</p>
+                    <p style="margin: 0;"><?php echo e($order['shipping_address']['airport_name'] ?? 'N/A'); ?></p>
+                    <p style="margin: 0;"><?php echo e($order['shipping_address']['address1'] ?? 'N/A'); ?></p>
+                </td>
+
+                <!-- Aircraft Information -->
+                <td width="30%" valign="top" style="padding-left: 10px;">
+                    <p style="font-size: 15px; font-weight: bold; margin: 0 0 5px;"><?php echo e(__('shop::app.fbo-detail.aircraft-info')); ?></p>
+                    <p style="margin: 0;"><?php echo e($order['fbo_tail_number'] ?? 'N/A'); ?></p>
+                    <p style="margin: 0;"><?php echo e($order['fbo_packaging'] ?? 'N/A'); ?></p>
+                    <p style="margin: 0;"><?php echo e($order['fbo_service_packaging'] ?? 'N/A'); ?></p>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
     <tr>
         <td>
             <table style="width: 100%">
@@ -252,24 +236,24 @@
                     border-top: 1px dotted black;
                     border-bottom: 1px dotted black;
                     margin-top: 20px;">
-                            <div class="table-responsive" style="max-height: 500px;overflow-x: auto;text-align:left;">
+                            <div class="table-responsive" style="max-height: 500px;overflow-x: auto;">
                                 <table style="width: -webkit-fill-available;border-collapse: collapse;" class="order-items-table">
                                     <thead>
-                                        <tr style="background-color: #dfdfdf;">
-                                            <th style="padding: 8px">
+                                        <tr  style="background-color: #dfdfdf;">
+                                            <th style="text-align: left;padding: 8px">
                                                 SKU
                                             </th>
-                                            <th style="padding: 8px">
+                                            <th style="text-align: left;padding: 8px">
                                             Product Name</th>
-                                            <th style="padding: 8px">
+                                            <th style="text-align: left;padding: 8px">
                                                 Qty
                                             </th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        @foreach (($order['items'] ?? []) as $item)
-                                            @php
+                                        <?php $__currentLoopData = ($order['items'] ?? []); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php
                                                 $optionLabel = null;
                                                 $specialInstruction = null;
                                                 $notes = null;
@@ -294,45 +278,39 @@
                                                     ->where('id', $item->id ?? 0)
                                                     ->where('order_id', $order['increment_id'] ?? '')
                                                     ->value('additional_notes');
-                                            @endphp
-                                            <tr class="order_view_table_body" style="min-height: 60px; {{ $loop->index % 2 !== 0 ? 'background-color: #dfdfdf;' : 'background-color: #ffffff;' }}">
+                                            ?>
+                                            <tr class="order_view_table_body" style="min-height: 60px; <?php echo e($loop->index % 2 !== 0 ? 'background-color: #dfdfdf;' : 'background-color: #ffffff;'); ?>">
                                                 <td
                                                     style="
                                             max-width: 130px;overflow: auto;padding:8px;">
-                                                    {{-- <div>
-                                                        <img class="product__img"
-                                                            src="https://volantiscottsdale.mindwebtree.com/cache/large/product/118/LXDS3Ev1pMyGKEHvrBdRXM2856om0XaBPwnFOdb3.png"
-                                                            alt="Product" style="height: 70px;width: 80px;" />
-                                                    </div> --}}
-                                                {{ $item->sku ?? 0 }}
+                                                    
+                                                <?php echo e($item->sku ?? 0); ?>
+
                                                 </td>
-                                                {{-- @dd($item) --}}
+                                                
                                                 <td style="
-                                                max-width: 250px;overflow: auto;padding:8px;">
-                                                    {{ $item->name ?? 'N/A' }}
-                                                    @if ($optionLabel)
-                                                        ({{ $optionLabel }})
-                                                    @endif
-                                                    @if (!empty($specialInstruction))
+                                                max-width: 200px;overflow: auto;padding:8px;">
+                                                    <?php echo e($item->name ?? 'N/A'); ?>
+
+                                                    <?php if($optionLabel): ?>
+                                                        (<?php echo e($optionLabel); ?>)
+                                                    <?php endif; ?>
+                                                    <?php if(!empty($specialInstruction)): ?>
                                                     <div class="" style="gap:4px;font-size:11px;max-height: 100px;"><span><b>Special Instruction: </b> </span><br>
-                                                    <span>{{ $item['additional']['special_instruction'] }}</span>
+                                                    <span><?php echo e($item['additional']['special_instruction']); ?></span>
                                                         </div>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </td>
 
                                                     <td style="
                                                 padding:8px;">
-                                                            {{ $item->qty_ordered ?? 0 }}
+                                                            <?php echo e($item->qty_ordered ?? 0); ?>
+
                                                     </td>
 
-                                                {{-- <td>
-                                                    <span class="qty-row">
-                                                        Qty:
-                                                        {{ $item->qty_ordered }}
-                                                    </span>
-                                                </td> --}}
+                                                
                                             </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -344,27 +322,6 @@
     </tr>
 </table>
 
-
-
-        {{-- <div style="margin-top: 65px;font-size: 16px;color: #5E5E5E;line-height: 24px;display: inline-block">
-            <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-                {{ __('shop::app.mail.order.final-summary') }}
-            </p>
-
-            <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-                {!! __('shop::app.mail.order.help', [
-                    'support_email' =>
-                        '<a style="color:#0041FF" href="mailto:' .
-                        core()->getAdminEmailDetails()['email'] .
-                        '">' .
-                        core()->getAdminEmailDetails()['email'] .
-                        '</a>',
-                ]) !!}
-            </p>
-
-            <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-                {{ __('shop::app.mail.order.thanks') }}
-            </p>
-        </div> --}}
-    </div>
-@endcomponent
+    <p>Please review the order details and process it accordingly.</p>
+<?php echo $__env->renderComponent(); ?>
+<?php /**PATH C:\xampp\htdocs\VolantiJetCateringGit\resources\views/mail/admin-order-notify.blade.php ENDPATH**/ ?>

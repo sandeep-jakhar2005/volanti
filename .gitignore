@@ -2,5 +2,6 @@
 *.zip
 *.jpg
 .vscode
-
+vendor
 .codegpt
+.env

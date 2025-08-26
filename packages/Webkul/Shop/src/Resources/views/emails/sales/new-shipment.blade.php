@@ -23,7 +23,7 @@
             </p>
 
             <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-                {!! __('shop::app.mail.order.greeting', [
+                {!! __('shop::app.mail.shipment.greeting', [
                     'order_id' => '<a href="' . route('shop.customer.orders.view', $order->id) . '" style="color: #0041FF; font-weight: bold;">#' . $order->increment_id . '</a>',
                     'created_at' => core()->formatDate($order->created_at, 'Y-m-d H:i:s')
                     ])
