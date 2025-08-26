@@ -802,9 +802,12 @@ class Helper
 
     public function deleteCart()
     {
-        $this->mpauthorizenetcartRepository->deleteWhere([
-            'cart_id' => \Cart::getCart()->id
-        ]);
+        $cart = \Cart::getCart();
+        if ($cart && isset($cart->id)) {
+                $this->mpauthorizenetcartRepository->deleteWhere([
+                    'cart_id' => $cart->id
+            ]);
+        }
     }
 
     // function chargeCustomerProfile($profileid, $paymentprofileid, $amount)

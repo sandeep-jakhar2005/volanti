@@ -1,6 +1,18 @@
 //.........................add-to-cart and quantity fixed position view......................//
 
 
+jQuery(document).ready(function () {
+    if (window.location.pathname === '/onepage/checkout') {
+        const checkExist = setInterval(function () {
+            if (jQuery('.mini-cart-btn').length || jQuery('#small-mini a').length) {
+                jQuery('.mini-cart-btn').hide();
+                jQuery('#small-mini a').hide();
+                clearInterval(checkExist);
+            }
+        }, 200);
+    }
+})
+
 jQuery(window).scroll(function () {
 
     if (

@@ -512,7 +512,11 @@ $today = new DateTime('today');
                                      <!-- sandeep  -->
                                     <td class="order_view_data" style="border-right: 1px solid #cccccc !important;">
                                         <div class="notes">
+                                                                       @if(!empty($item->additional_notes))
                                     <p>{{ $item->additional_notes }} </p>
+                                    @else
+                                    <span>N/A</span>
+                                    @endif
                                     </div>
                                     </td>
                                 </tr>
