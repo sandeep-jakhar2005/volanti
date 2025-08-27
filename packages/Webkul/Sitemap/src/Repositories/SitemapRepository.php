@@ -76,15 +76,14 @@ class SitemapRepository extends Repository
             ->add(Url::create('/')); // Add homepage
 
         // Fetch all top-level categories (no parent)
-        $topCategories = Category::whereNull('parent_id')->get();
-
+        $topCategories = Category::where('parent_id',1)->get();
+        
         foreach ($topCategories as $category) {
-            // Add the top-level category URL
+            
             $categoryUrl = url($category->url_path ?? $category->slug);
             $sitemapInstance->add(Url::create($categoryUrl));
 
-            // Add subcategories URLs nested under category
-            $subcategories = $category->children; // Assuming you have a 'children' relation set up
+            $subcategories = $category->children; 
 
             foreach ($subcategories as $subcategory) {
                 // Build full path: category + subcategory slug
