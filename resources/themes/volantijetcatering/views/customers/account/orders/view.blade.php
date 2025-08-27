@@ -259,14 +259,6 @@ $today = new DateTime('today');
                                                         $formattedDate = $dayName . ' ' . $month . '/' . $dayOfMonth;
                                                     }
                                                 @endphp
-                                                <!-- @php
-    $date = $order->delivery_date;
-    $dateObj = new DateTime($date);
-    // Format as mm/dd/yyyy
-    $formattedDate = $dateObj->format('m/d/Y');
-@endphp -->
-
-
                                                 <span class="fbo-tail-no fbo-data">Delivery Date: {{ $formattedDate }}</span>
                                             @endif
                                             <br>
