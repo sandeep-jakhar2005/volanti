@@ -182,10 +182,10 @@
                                             <span class="fbo-customer-name  ">{{ $order->fbo_full_name }}</span>
                                             <br>
                                             <span
-                                                class="fbo-customer-mobile fbo-data">{{ $order->fbo_phone_number }}</span>
+                                                class="fbo-customer-email fbo-data">{{ $order->fbo_email_address }}</span>
                                             <br>
                                             <span
-                                                class="fbo-customer-email fbo-data">{{ $order->fbo_email_address }}</span>
+                                                class="fbo-customer-mobile fbo-data">{{ $order->fbo_phone_number }}</span>
                                             <br>
                                         </div>
                                     </div>
@@ -263,11 +263,11 @@ $today = new DateTime('today');
                                                         $formattedDate = $dayName . ' ' . $month . '/' . $dayOfMonth;
                                                     }
                                                 @endphp
-                                                <span class="fbo-tail-no fbo-data"> {{ $formattedDate }}</span>
+                                                <span class="fbo-tail-no fbo-data">Delivery Date: {{ $formattedDate }}</span>
                                             @endif
                                             <br>
                                             @if (isset($order->delivery_time) && $order->delivery_time != '')
-                                                <span class="fbo-tail-no fbo-data"> {{ $order->delivery_time }}</span>
+                                                <span class="fbo-tail-no fbo-data">Delivery Time: {{ $order->delivery_time }}</span>
                                             @endif
                                             <br>
                                             <span class="fbo-tail-no fbo-data"><b>Airport FBO:</b>
