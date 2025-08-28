@@ -278,12 +278,13 @@ $today = new DateTime('today');
                             $formattedDate = $dateObj->format('Y-m-d');
                             }
                             @endphp
-                            <span class="fbo-tail-no fbo-data">Delivery Date: {{ $formattedDate }}</span>
-                            @endif
-                            <br>
-                            @if (isset($order->delivery_time) && $order->delivery_time != '')
-                            <span class="fbo-tail-no fbo-data">Delivery Time: {{ $order->delivery_time }}</span>
-                            @endif
+                            <span class="fbo-tail-no fbo-data"><b>Delivery Date & Time</b><br>
+                                    <span class="fbo-tail-no fbo-data m-0">{{ $formattedDate }}</span>
+                                @endif
+                                @if (isset($order->delivery_time) && $order->delivery_time != '')
+                                    <span class="fbo-tail-no fbo-data ml-2">{{ $order->delivery_time }}</span>
+                                @endif
+                            </span>
                             <br>
                             <span class="fbo-tail-no fbo-data"><b>Airport FBO:</b>
 
