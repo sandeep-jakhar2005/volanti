@@ -8,8 +8,8 @@ use ACME\CateringPackage\Contracts\Delivery_location_airport as Delivery_locatio
 
 class Delivery_location_airport extends Model implements Delivery_location_airportContract
 {   
-    use SoftDeletes;
-    protected $dates = ['deleted_at'];
+    // use SoftDeletes;
+    // protected $dates = ['deleted_at'];
     
     protected $table="delivery_location_airports";
     protected $fillable = [

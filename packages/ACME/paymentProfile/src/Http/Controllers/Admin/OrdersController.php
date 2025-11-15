@@ -201,10 +201,9 @@ class OrdersController extends Controller
 
         if ($comment->customer_notified) {
             // sandeep send mail using queue
-            try{
+            try {
                 OrderNoteJob::dispatch($comment, $order);
-            }catch (QueryException $e){
-                
+            } catch (QueryException $e) {
             }
         }
 
@@ -420,14 +419,14 @@ class OrdersController extends Controller
                 'delivery_time' => $request->delivery_time,
             ]);
 
-                // sandeep update quickbook invoice
-                $quickbookInvoiceId = DB::table('orders')->where('id',$order_id)->select('quickbook_invoice_id')->first();
-            if($quickbookInvoiceId->quickbook_invoice_id){
+        // sandeep update quickbook invoice
+        $quickbookInvoiceId = DB::table('orders')->where('id', $order_id)->select('quickbook_invoice_id')->first();
+        if ($quickbookInvoiceId->quickbook_invoice_id) {
             ProcessQuickBooksInvoice::dispatch($order_id);
-            }
+        }
 
 
-            return redirect()->back();
+        return redirect()->back();
     }
 
     /**
@@ -445,13 +444,13 @@ class OrdersController extends Controller
             // $addresses = Db::table('delivery_location_airports')->where('name', 'like', '%' . $request->name . '%')->orWhere('address', 'like', '%' . $request->name . '%')->get();
 
             $addresses = DB::table('delivery_location_airports')
-            ->where('active', '1')
-            ->where(function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->name . '%')
-                    ->orWhere('address', 'like', '%' . $request->name . '%');
-            })
-            ->get();
-            
+                ->where('active', '1')
+                ->where(function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->name . '%')
+                        ->orWhere('address', 'like', '%' . $request->name . '%');
+                })
+                ->get();
+
 
             $output = '';
 
@@ -472,7 +471,6 @@ class OrdersController extends Controller
                         . "</div>
                                     </div>
                                 </li>";
-
                 }
                 $output .= '</ul>';
             } else {
@@ -481,7 +479,6 @@ class OrdersController extends Controller
             }
 
             return $output;
-
         } elseif ($request->ajax() && $request->type == 'airport_fbo_detail') {
             // $airport_fbo_details = DB::table('airport_fbo_details')
             //     ->where('airport_id', $request->airport_id == '' ? $request->airport_fbo_airport_id : $request->airport_id)
@@ -513,21 +510,21 @@ class OrdersController extends Controller
             // })
             // ->get();
 
-             // sandeep || add code to get airport fbo details
+            // sandeep || add code to get airport fbo details
             $airport_fbo_details = DB::table('airport_fbo_details')
                 ->where('airport_id', $airportId)
                 ->where(function ($query) use ($request) {
                     $query->where(function ($subquery) {
                         $subquery->whereNull('customer_id')
-                                ->whereNull('customer_token');
+                            ->whereNull('customer_token');
                     })
-                    ->orWhere(function ($subquery) use ($request) {
-                        if ($request->airport_fbo_customer_id) {
-                            $subquery->where('customer_id', $request->airport_fbo_customer_id);
-                        } else {
-                            $subquery->where('customer_token', request()->input('_token'));
-                        }
-                    });
+                        ->orWhere(function ($subquery) use ($request) {
+                            if ($request->airport_fbo_customer_id) {
+                                $subquery->where('customer_id', $request->airport_fbo_customer_id);
+                            } else {
+                                $subquery->where('customer_token', request()->input('_token'));
+                            }
+                        });
                 })
                 ->get();
 
@@ -625,31 +622,30 @@ class OrdersController extends Controller
                 ]);
             }
             echo json_encode(['status' => 'successfully update data...!']);
-
         }
 
-            // sandeep add code for tax add 
-            $cartInstance = app(Cart::class);
-            $cartInstance->calculateItemsTax($request->order_id);
+        // sandeep add code for tax add 
+        $cartInstance = app(Cart::class);
+        $cartInstance->calculateItemsTax($request->order_id);
 
-            // get tax total and update to orders table
-            $order = Order::where('id', $request->order_id)->first(); 
-                $order->tax_amount = Tax::getTaxTotal($order, false);
-                $order->base_tax_amount = Tax::getTaxTotal($order, true);
-                $order->tax_amount_invoiced = Tax::getTaxTotal($order, true);
-                $order->base_tax_amount_invoiced = Tax::getTaxTotal($order, true);
-                $order->grand_total = $order->tax_amount + $order->sub_total;
-                $order->base_grand_total = $order->tax_amount + $order->sub_total;
-                $order->grand_total_invoiced = $order->tax_amount + $order->sub_total;
-                $order->base_grand_total_invoiced = $order->tax_amount + $order->sub_total;
-                $order->save();
+        // get tax total and update to orders table
+        $order = Order::where('id', $request->order_id)->first();
+        $order->tax_amount = Tax::getTaxTotal($order, false);
+        $order->base_tax_amount = Tax::getTaxTotal($order, true);
+        $order->tax_amount_invoiced = Tax::getTaxTotal($order, true);
+        $order->base_tax_amount_invoiced = Tax::getTaxTotal($order, true);
+        $order->grand_total = $order->tax_amount + $order->sub_total;
+        $order->base_grand_total = $order->tax_amount + $order->sub_total;
+        $order->grand_total_invoiced = $order->tax_amount + $order->sub_total;
+        $order->base_grand_total_invoiced = $order->tax_amount + $order->sub_total;
+        $order->save();
 
 
-                // sandeep update quickbook invoice
-            if($order->quickbook_invoice_id){
-                ProcessQuickBooksInvoice::dispatch($request->order_id);
-            }
+        // sandeep update quickbook invoice
+        if ($order->quickbook_invoice_id) {
+            ProcessQuickBooksInvoice::dispatch($request->order_id);
         }
+    }
 
     public function add_orders(Request $request)
     {
@@ -720,7 +716,6 @@ class OrdersController extends Controller
                                 'created_at' => now(), // Current timestamp for creation
                                 'updated_at' => now(), // Current timestamp for update
                             ]);
-
                     } else {
 
                         DB::table('order_items')
@@ -743,8 +738,6 @@ class OrdersController extends Controller
                                 'created_at' => now(), // Current timestamp for creation
                                 'updated_at' => now(), // Current timestamp for update
                             ]);
-
-
                     }
                 } else {
                     $attr = DB::table('product_flat')
@@ -814,11 +807,7 @@ class OrdersController extends Controller
                             'total_weight' => $productArr->weight * $productId['qty'],
 
                         ]);
-
-
-
                 }
-
             }
 
             $product_inventory = DB::table('product_inventory_indices')
@@ -861,7 +850,6 @@ class OrdersController extends Controller
             }
 
             session()->flash('success', 'Product added Successfully!');
-
         }
 
 
@@ -890,27 +878,27 @@ class OrdersController extends Controller
                 'sub_total_invoiced' => $totalPrice,
                 'base_sub_total_invoiced' => $totalPrice,
             ]);
-                // sandeep add code for tax add 
-                $cartInstance = app(Cart::class);
-                $cartInstance->calculateItemsTax($request->order_id);
+        // sandeep add code for tax add 
+        $cartInstance = app(Cart::class);
+        $cartInstance->calculateItemsTax($request->order_id);
 
-                // get tax total and update to orders table
-                $order = Order::where('id', $request->order_id)->first(); 
-                    $order->tax_amount = Tax::getTaxTotal($order, false);
-                    $order->base_tax_amount = Tax::getTaxTotal($order, true);
-                    $order->tax_amount_invoiced = Tax::getTaxTotal($order, true);
-                    $order->base_tax_amount_invoiced = Tax::getTaxTotal($order, true);
-                    $order->grand_total = $order->tax_amount + $totalPrice;
-                    $order->base_grand_total = $order->tax_amount + $totalPrice;
-                    $order->grand_total_invoiced = $order->tax_amount + $totalPrice;
-                    $order->base_grand_total_invoiced = $order->tax_amount + $totalPrice;
-                    $order->save();
+        // get tax total and update to orders table
+        $order = Order::where('id', $request->order_id)->first();
+        $order->tax_amount = Tax::getTaxTotal($order, false);
+        $order->base_tax_amount = Tax::getTaxTotal($order, true);
+        $order->tax_amount_invoiced = Tax::getTaxTotal($order, true);
+        $order->base_tax_amount_invoiced = Tax::getTaxTotal($order, true);
+        $order->grand_total = $order->tax_amount + $totalPrice;
+        $order->base_grand_total = $order->tax_amount + $totalPrice;
+        $order->grand_total_invoiced = $order->tax_amount + $totalPrice;
+        $order->base_grand_total_invoiced = $order->tax_amount + $totalPrice;
+        $order->save();
 
-                // sandeep update quickbook invoice
-                // if($order->quickbook_invoice_id){
-                //  $quickbookInvoice = app(InvoicesController::class);
-                //  $quickbookInvoice->createInvoice($request->order_id);
-                // }
+        // sandeep update quickbook invoice
+        // if($order->quickbook_invoice_id){
+        //  $quickbookInvoice = app(InvoicesController::class);
+        //  $quickbookInvoice->createInvoice($request->order_id);
+        // }
 
     }
 
@@ -945,12 +933,11 @@ class OrdersController extends Controller
                 ]);
 
 
-                // sandeep add code for send order accept mail
-                try{
-                    OrderAcceptJob::dispatch($order);
-                }catch (QueryException $e) {
-
-                }
+            // sandeep add code for send order accept mail
+            try {
+                OrderAcceptJob::dispatch($order);
+            } catch (QueryException $e) {
+            }
 
             // sandeep add notification
             $this->AppNotification($id, "Order Accept");
@@ -958,15 +945,13 @@ class OrdersController extends Controller
 
             session()->flash('success', 'Order accepted Successfully!');
             return redirect()->back();
-
         } catch (QueryException $e) {
             session()->flash('error', 'Error accepting the order. Please try again.');
             return redirect()->back();
-
         } catch (\Exception $e) {
             session()->flash('error', 'An error occurred. Please try again.');
             return redirect()->back();
-        }                                                                                                              
+        }
     }
 
     public function order_reject(Request $request)
@@ -1040,12 +1025,12 @@ class OrdersController extends Controller
 
             // sandeep send mail order accept and reject ussing queue
             if ($data['action'] === 'reject') {
-            // sandeep add app notification
-            $this->AppNotification($data['orderId'], "Order Reject");
+                // sandeep add app notification
+                $this->AppNotification($data['orderId'], "Order Reject");
                 OrderRejectJob::dispatch($order, $recipientEmail);
             } else {
-            // sandeep add app notification
-            $this->AppNotification($data['orderId'], "Order Cancel");
+                // sandeep add app notification
+                $this->AppNotification($data['orderId'], "Order Cancel");
                 OrderCancelJob::dispatch($order, $recipientEmail);
             }
 
@@ -1064,7 +1049,6 @@ class OrdersController extends Controller
 
             session()->flash('error', $errorMessage);
             return redirect()->back();
-
         } catch (\Exception $e) {
 
 
@@ -1126,7 +1110,6 @@ class OrdersController extends Controller
                         'qty' => $product['newQty'] + $orderInventory->qty,
                     ]);
                 }
-
             } else {
                 $option = DB::table('order_items')
                     ->where('parent_id', $product['itemId'])
@@ -1178,7 +1161,6 @@ class OrdersController extends Controller
                     'qty_ordered' => $product['quantity'],
                     'qty_invoiced' => $product['quantity'],
                 ]);
-
         }
 
         $totalQuantity = DB::table('order_items')
@@ -1212,28 +1194,28 @@ class OrdersController extends Controller
                 'base_sub_total_invoiced' => $totalPrice,
             ]);
 
-                  // sandeep add code for tax add 
-                $cartInstance = app(Cart::class);
-                $cartInstance->calculateItemsTax($request['orderID']);
+        // sandeep add code for tax add 
+        $cartInstance = app(Cart::class);
+        $cartInstance->calculateItemsTax($request['orderID']);
 
-                // get tax total and update to orders table
-                $order = Order::where('id', $request['orderID'])->first(); 
-                    $order->tax_amount = Tax::getTaxTotal($order, false);
-                    $order->base_tax_amount = Tax::getTaxTotal($order, true);
-                    $order->tax_amount_invoiced = Tax::getTaxTotal($order, true);
-                    $order->base_tax_amount_invoiced = Tax::getTaxTotal($order, true);
-                    $order->grand_total = $order->tax_amount + $totalPrice;
-                    $order->base_grand_total = $order->tax_amount + $totalPrice;
-                    $order->grand_total_invoiced = $order->tax_amount + $totalPrice;
-                    $order->base_grand_total_invoiced = $order->tax_amount + $totalPrice;
-                    $order->save();
+        // get tax total and update to orders table
+        $order = Order::where('id', $request['orderID'])->first();
+        $order->tax_amount = Tax::getTaxTotal($order, false);
+        $order->base_tax_amount = Tax::getTaxTotal($order, true);
+        $order->tax_amount_invoiced = Tax::getTaxTotal($order, true);
+        $order->base_tax_amount_invoiced = Tax::getTaxTotal($order, true);
+        $order->grand_total = $order->tax_amount + $totalPrice;
+        $order->base_grand_total = $order->tax_amount + $totalPrice;
+        $order->grand_total_invoiced = $order->tax_amount + $totalPrice;
+        $order->base_grand_total_invoiced = $order->tax_amount + $totalPrice;
+        $order->save();
 
-                // sandeep update quickbook invoice
-                // if($order->quickbook_invoice_id){
-                //  $quickbookInvoice = app(InvoicesController::class);
-                //  $quickbookInvoice->createInvoice($request['orderID']);
-                // }
- 
+        // sandeep update quickbook invoice
+        // if($order->quickbook_invoice_id){
+        //  $quickbookInvoice = app(InvoicesController::class);
+        //  $quickbookInvoice->createInvoice($request['orderID']);
+        // }
+
     }
     public function remove_product($order_id, $id)
     {
@@ -1263,7 +1245,6 @@ class OrdersController extends Controller
                         'qty' => $orderInventory->qty - $quantity,
                     ]);
                 }
-
             } else {
                 $option = OrderItem::where('parent_id', $id)
                     ->select('product_id')
@@ -1335,31 +1316,31 @@ class OrdersController extends Controller
             session()->flash('error', 'Item not found');
         }
 
-            // sandeep add code for tax add 
-            $cartInstance = app(Cart::class);
-            $cartInstance->calculateItemsTax($order_id);
-        
-            // get tax total and update to orders table
-            $order = Order::where('id', $order_id)->first(); 
-                $order->tax_amount = Tax::getTaxTotal($order, false);
-                $order->base_tax_amount = Tax::getTaxTotal($order, true);
-                $order->tax_amount_invoiced = Tax::getTaxTotal($order, true);
-                $order->base_tax_amount_invoiced = Tax::getTaxTotal($order, true);
-                $order->grand_total = $order->tax_amount + $totalPrice;
-                $order->base_grand_total = $order->tax_amount + $totalPrice;
-                $order->grand_total_invoiced = $order->tax_amount + $totalPrice;
-                $order->base_grand_total_invoiced = $order->tax_amount + $totalPrice;
-                $order->save();
+        // sandeep add code for tax add 
+        $cartInstance = app(Cart::class);
+        $cartInstance->calculateItemsTax($order_id);
 
-                // sandeep update quickbook invoice
-                // if($order->quickbook_invoice_id){
-                // $quickbookInvoice = app(InvoicesController::class);
-                // $quickbookInvoice->createInvoice($order_id);
-                // }
+        // get tax total and update to orders table
+        $order = Order::where('id', $order_id)->first();
+        $order->tax_amount = Tax::getTaxTotal($order, false);
+        $order->base_tax_amount = Tax::getTaxTotal($order, true);
+        $order->tax_amount_invoiced = Tax::getTaxTotal($order, true);
+        $order->base_tax_amount_invoiced = Tax::getTaxTotal($order, true);
+        $order->grand_total = $order->tax_amount + $totalPrice;
+        $order->base_grand_total = $order->tax_amount + $totalPrice;
+        $order->grand_total_invoiced = $order->tax_amount + $totalPrice;
+        $order->base_grand_total_invoiced = $order->tax_amount + $totalPrice;
+        $order->save();
+
+        // sandeep update quickbook invoice
+        // if($order->quickbook_invoice_id){
+        // $quickbookInvoice = app(InvoicesController::class);
+        // $quickbookInvoice->createInvoice($order_id);
+        // }
 
         return redirect()->back();
     }
-    
+
 
     public function update_billing_address(request $request)
     {
@@ -1378,11 +1359,11 @@ class OrdersController extends Controller
 
             ]);
 
-           // sandeep update quickbook invoice
-           $quickbookInvoiceId = DB::table('orders')->where('id',$request->order_id)->select('quickbook_invoice_id')->first();
-           if($quickbookInvoiceId->quickbook_invoice_id){
-             ProcessQuickBooksInvoice::dispatch($request->order_id);
-           }
+        // sandeep update quickbook invoice
+        $quickbookInvoiceId = DB::table('orders')->where('id', $request->order_id)->select('quickbook_invoice_id')->first();
+        if ($quickbookInvoiceId->quickbook_invoice_id) {
+            ProcessQuickBooksInvoice::dispatch($request->order_id);
+        }
 
         return redirect()->back();
     }
@@ -1414,7 +1395,6 @@ class OrdersController extends Controller
                 'Handling_charges' => $request->handling_charges,
                 'Mobile' => $validate['mobile'],
             ]);
-
         } else {
 
             agentHandler::create([
@@ -1428,8 +1408,8 @@ class OrdersController extends Controller
         }
 
         // sandeep update quickbook invoice
-        $quickbookInvoiceId = DB::table('orders')->where('id',$request->order_id)->select('quickbook_invoice_id')->first();
-        if($quickbookInvoiceId->quickbook_invoice_id){
+        $quickbookInvoiceId = DB::table('orders')->where('id', $request->order_id)->select('quickbook_invoice_id')->first();
+        if ($quickbookInvoiceId->quickbook_invoice_id) {
             ProcessQuickBooksInvoice::dispatch($request->order_id);
         }
 
@@ -1523,14 +1503,7 @@ class OrdersController extends Controller
 
             // Insert data into meta table
             packaging_meta::create($packaging_meta_data);
-
-
         }
-
-
-
-
-
     }
     public function delete_packaging_slip($id)
     {
@@ -1542,7 +1515,6 @@ class OrdersController extends Controller
             // Optionally, you can add a success message or perform any other actions after deletion
         }
         return redirect()->back();
-
     }
     public function download_packaging_slip($slip_id, $order_id)
     {
@@ -1622,8 +1594,6 @@ class OrdersController extends Controller
         // Render PDF
         $dompdf->render();
         return $dompdf->stream('packaging-slip.pdf');
-
-
     }
 
 
@@ -1785,7 +1755,7 @@ class OrdersController extends Controller
             'name' => 'required',
             'address' => 'required',
         ]);
-        
+
         // dd(request()->all());
         $insertedId = DB::table('airport_fbo_details')->insertGetId([
             'name' => request()->input('name'),
@@ -1803,75 +1773,135 @@ class OrdersController extends Controller
         session()->flash('success', trans('Airport Fbo Details added successfully'));
 
         return response()->json(['response' => true, 'data' => $insertedRecord]);
-
     }
     public function custom_order()
     {
         return view($this->_config['view']);
     }
+    // public function create_custom_order(Request $request)
+    // {
+    //     $valdiate = $request->validate([
+    //         'name' => 'required|string|max:100',
+    //         'email' => 'required|email|max:100|unique:customers,email',
+    //         'phone' => 'required|min:10|max:14',
+    //     ]);
+    //     [$firstName, $lastName] = array_pad(explode(' ', $valdiate['name'], 2), 2, '');
+
+    //     $customer = \Webkul\Customer\Models\Customer::create([
+    //         'token' => $request->input('_token'),
+    //         'first_name' => $firstName,
+    //         'last_name' => $lastName,
+    //         'email' => $valdiate['email'],
+    //         'phone' => $valdiate['phone'],
+    //     ]);
+    //     $customerDetail = \Webkul\Customer\Models\Customer::find($customer->id);
+    //     $incrementId = Order::max('id') + 1; // Generate a unique increment ID
+    //     $order = Order::create([
+    //         'increment_id' => $incrementId,
+    //         'status_id' => 1,
+    //         'channel_name' => 'Default',
+    //         'status' => 'pending',
+    //         'customer_email' => $customerDetail->email,
+    //         'customer_first_name' => $customerDetail->first_name,
+    //         'customer_last_name' => $customerDetail->last_name,
+    //         'shipping_method' => 'free_free',
+    //         'shipping_title' => 'Free Shipping - Free Shipping',
+    //         'shipping_description' => 'Free Shipping',
+    //         'customer_id' => $customer->id,
+    //         'customer_type' => 'Webkul\Customer\Models\Customer',
+    //         'channel_id' => 1,
+    //         'channel_type' => 'Webkul\Core\Models\Channel',
+    //     ]);
+
+    //     DB::table('order_status_log')->insert([
+    //         'order_id' => $order->id,
+    //         'user_id' => auth()->guard('admin')->user()->id,
+    //         'status_id' => 1,
+    //         'is_admin' => 1,
+    //         'email' => $customerDetail->email,
+    //     ]);
+
+    //     DB::table('addresses')->insert([
+    //         [
+    //             'address_type' => 'order_shipping',
+    //             'order_id' => $order->id,
+    //         ],
+    //         [
+    //             'address_type' => 'order_billing',
+    //             'order_id' => $order->id,
+    //         ]
+    //     ]);
+
+    //     session()->flash('success', 'Order created succesfully!');
+    //     // return view($this->_config['redirect']);
+    //     return redirect()->route('admin.sale.order.view', $order->id);
+    // }
+
     public function create_custom_order(Request $request)
     {
-        $valdiate = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|max:100|unique:customers,email',
-            'phone' => 'required|min:10|max:14',
+        $request->validate([
+            'name'  => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'phone' => 'required|min:10|max:12',
         ]);
-        [$firstName, $lastName] = array_pad(explode(' ', $valdiate['name'], 2), 2, '');
 
-        $customer = \Webkul\Customer\Models\Customer::create([
-            'token' => $request->input('_token'),
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'email' => $valdiate['email'],
-            'phone' => $valdiate['phone'],
-        ]);
-        $customerDetail = \Webkul\Customer\Models\Customer::find($customer->id);
-        $incrementId = Order::max('id') + 1; // Generate a unique increment ID
+        [$firstName, $lastName] = array_pad(explode(' ', $request->input('name'), 2), 2, '');
+
+        // Check if customer already exists
+        $customer = \Webkul\Customer\Models\Customer::where('email', $request->email)->first();
+
+        // If not exists, create new one
+        if (!$customer) {
+            $customer = \Webkul\Customer\Models\Customer::create([
+                'token'       => $request->input('_token'),
+                'first_name'  => $firstName,
+                'last_name'   => $lastName,
+                'email'       => $request->email,
+                'phone'       => $request->phone,
+            ]);
+        }
+
+        $incrementId = Order::max('id') + 1;
+
         $order = Order::create([
-            'increment_id' => $incrementId,
-            'status_id' => 1,
-            'channel_name' => 'Default',
-            'status' => 'pending',
-            'customer_email' => $customerDetail->email,
-            'customer_first_name' => $customerDetail->first_name,
-            'customer_last_name' => $customerDetail->last_name,
-            'shipping_method' => 'free_free',
-            'shipping_title' => 'Free Shipping - Free Shipping',
+            'increment_id'        => $incrementId,
+            'status_id'           => 1,
+            'channel_name'        => 'Default',
+            'status'              => 'pending',
+            'customer_email'      => $customer->email,
+            'customer_first_name' => $customer->first_name,
+            'customer_last_name'  => $customer->last_name,
+            'shipping_method'     => 'free_free',
+            'shipping_title'      => 'Free Shipping - Free Shipping',
             'shipping_description' => 'Free Shipping',
-            'customer_id' => $customer->id,
-            'customer_type' => 'Webkul\Customer\Models\Customer',
-            'channel_id' => 1,
-            'channel_type' => 'Webkul\Core\Models\Channel',
+            'customer_id'         => $customer->id,
+            'customer_type'       => 'Webkul\Customer\Models\Customer',
+            'channel_id'          => 1,
+            'channel_type'        => 'Webkul\Core\Models\Channel',
         ]);
 
         DB::table('order_status_log')->insert([
             'order_id' => $order->id,
-            'user_id' => auth()->guard('admin')->user()->id,
+            'user_id'  => auth()->guard('admin')->user()->id,
             'status_id' => 1,
             'is_admin' => 1,
-            'email' => $customerDetail->email,
+            'email'    => $customer->email,
         ]);
 
         DB::table('addresses')->insert([
-            [
-                'address_type' => 'order_shipping',
-                'order_id' => $order->id,
-            ],
-            [
-                'address_type' => 'order_billing',
-                'order_id' => $order->id,
-            ]
+            ['address_type' => 'order_shipping', 'order_id' => $order->id],
+            ['address_type' => 'order_billing',  'order_id' => $order->id],
         ]);
 
-        session()->flash('success', 'Order created succesfully!');
-        // return view($this->_config['redirect']);
+        session()->flash('success', 'Order created successfully!');
         return redirect()->route('admin.sale.order.view', $order->id);
     }
 
 
     // sandeep add code for app notification
-    private function AppNotification($id,$message){
-        $order = DB::table('orders')->where('id',$id)->select('customer_id')->first();
+    private function AppNotification($id, $message)
+    {
+        $order = DB::table('orders')->where('id', $id)->select('customer_id')->first();
         $appNotifications = DB::table('app_notifications')->insert([
             'customer_id' => $order->customer_id,
             'order_id' => $id,
@@ -1879,5 +1909,4 @@ class OrdersController extends Controller
             'is_read' => 0
         ]);
     }
-
 }

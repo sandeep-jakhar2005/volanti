@@ -138,14 +138,9 @@
     
     <tr>
         <td colspan="3" style="width: 100%">
-            <div
-                style="
-            border-top: 1px dotted black;
-              border-bottom: 1px dotted black;
-              padding: 0;
-            ">
-                <h3 style="padding: 15px 0px;font-weight: bold;margin: 0px;font-size: 20px;">
-                    Billing Address
+            <div style="border-top: 1px dotted black; border-bottom: 1px dotted black; padding: 0; text-align: center;">
+                <h3 style="padding: 15px 0px; font-weight: bold; margin: 0px; font-size: 20px;">
+                    Order Details
                 </h3>
             </div>
         </td>
@@ -212,21 +207,7 @@
         </table>
     </td>
 </tr>
-        </tr>
-        <tr>
-        <td colspan="3" style="width: 100%">
-            <div
-                style="
-            border-top: 1px dotted black;
-              border-bottom: 1px dotted black;
-              padding: 0;
-            ">
-                <h3 style="padding: 15px 0px;font-weight: bold;margin: 0px;font-size: 20px;">
-                    Order Details
-                </h3>
-            </div>
-        </td>
-    </tr>
+    
 
     <tr>
         <td>

@@ -54,6 +54,31 @@
 @endpush
 @php
     
+
+ $categoryIds = collect($getCategorydetail['product_category'] ?? [])
+    ->pluck('category_id')
+    ->filter()
+    ->toArray();
+
+   
+$categorySlugs = [];
+
+if (!empty($categoryIds)) {
+    $categorySlugs = DB::table('category_translations')
+        ->whereIn('category_id', $categoryIds)
+        ->where('locale', app()->getLocale())
+        ->pluck('slug')
+        ->filter()
+        ->map(fn($slug) => trim($slug))
+        ->toArray();
+}
+if (empty($categorySlugs)) {
+    $categorySlugs = ['not-available'];
+}
+
+// Convert array to comma-separated string
+$categorySlugsString = implode(',', $categorySlugs);
+
 // dd($categorySlugsString);
 if (Auth::check()) {
     $date_of_birth = auth()->user()->date_of_birth;
@@ -66,7 +91,8 @@ if (Auth::check()) {
     $date_of_birth = $guestDob;
 }
        
-@endphp 
+@endphp
+<input type="hidden" id="category_slug" value="{{ $categorySlugsString }}">
 
 <input type="hidden" 
     id="userAge"    
@@ -197,12 +223,14 @@ if (Auth::check()) {
                     {{-- @endif --}}
                     
                     <div id="search-item-list" class="search-item col-12">
+                         
                     @foreach ($results as $productFlat)
                         @if ($toolbarHelper->getCurrentMode() == 'grid')
                             @include('shop::products.list.search-card', [
                                 'cardClass' => 'category-product-image-container',
                                 'product' => $productFlat->product,
                             ])
+                           
                         @else
                             @include('shop::products.list.search-card', [
                                 'list' => true,
@@ -210,13 +238,16 @@ if (Auth::check()) {
                             ])
                         @endif
                     @endforeach
-
+                    @include ('shop::search.agemodel')
                     @include('ui::datagrid.pagination')
                     </div>
+                    
                 @endif
             @endif
         </section>
+
     </script>
+
 
     <script>
         Vue.component('search-component', {
@@ -248,3 +279,5 @@ if (Auth::check()) {
         });
     </script>
 @endpush
+
+

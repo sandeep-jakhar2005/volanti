@@ -33,6 +33,13 @@
   </div>
 </div>
 <style>
+
+    @media only screen and (max-width: 767px) {
+
+#ageModal .modal-content {
+        margin-right: 15px !important;
+}
+    }
     #ageModal .modal-footer span {
     color: #fff !important;    ;
 }

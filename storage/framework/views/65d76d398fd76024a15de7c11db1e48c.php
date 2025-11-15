@@ -55,6 +55,31 @@
 <?php $__env->stopPush(); ?>
 <?php
     
+
+ $categoryIds = collect($getCategorydetail['product_category'] ?? [])
+    ->pluck('category_id')
+    ->filter()
+    ->toArray();
+
+   
+$categorySlugs = [];
+
+if (!empty($categoryIds)) {
+    $categorySlugs = DB::table('category_translations')
+        ->whereIn('category_id', $categoryIds)
+        ->where('locale', app()->getLocale())
+        ->pluck('slug')
+        ->filter()
+        ->map(fn($slug) => trim($slug))
+        ->toArray();
+}
+if (empty($categorySlugs)) {
+    $categorySlugs = ['not-available'];
+}
+
+// Convert array to comma-separated string
+$categorySlugsString = implode(',', $categorySlugs);
+
 // dd($categorySlugsString);
 if (Auth::check()) {
     $date_of_birth = auth()->user()->date_of_birth;
@@ -67,7 +92,8 @@ if (Auth::check()) {
     $date_of_birth = $guestDob;
 }
        
-?> 
+?>
+<input type="hidden" id="category_slug" value="<?php echo e($categorySlugsString); ?>">
 
 <input type="hidden" 
     id="userAge"    
@@ -195,12 +221,14 @@ if (Auth::check()) {
                     
                     
                     <div id="search-item-list" class="search-item col-12">
+                         
                     <?php $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $productFlat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php if($toolbarHelper->getCurrentMode() == 'grid'): ?>
                             <?php echo $__env->make('shop::products.list.search-card', [
                                 'cardClass' => 'category-product-image-container',
                                 'product' => $productFlat->product,
                             ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                           
                         <?php else: ?>
                             <?php echo $__env->make('shop::products.list.search-card', [
                                 'list' => true,
@@ -208,13 +236,16 @@ if (Auth::check()) {
                             ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php endif; ?>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                    <?php echo $__env->make('shop::search.agemodel', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <?php echo $__env->make('ui::datagrid.pagination', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     </div>
+                    
                 <?php endif; ?>
             <?php endif; ?>
         </section>
+
     </script>
+
 
     <script>
         Vue.component('search-component', {
@@ -246,5 +277,7 @@ if (Auth::check()) {
         });
     </script>
 <?php $__env->stopPush(); ?>
+
+
 
 <?php echo $__env->make('shop::layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/ubuntu/volantiScottsdale/resources/themes/volantijetcatering/views/search/search.blade.php ENDPATH**/ ?>

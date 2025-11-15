@@ -61,41 +61,13 @@ class SitemapRepository extends Repository
      * @param  \Webkul\Sitemap\Contracts\Sitemap  $sitemap
      * @return void
      */
-    // public function generateSitemap($sitemap)
-    // {
-    //     Sitemap::create()
-    //         ->add(Url::create('/'))
-    //         ->add(Category::all())
-    //         ->add(CmsPage::all())
-    //         ->writeToDisk('public', $sitemap->path . '/' . $sitemap->file_name);
-    // }
-
     public function generateSitemap($sitemap)
     {
-        $sitemapInstance = Sitemap::create()
-            ->add(Url::create('/')); // Add homepage
-
-        // Fetch all top-level categories (no parent)
-        $topCategories = Category::where('parent_id',1)->get();
-        
-        foreach ($topCategories as $category) {
-            
-            $categoryUrl = url($category->url_path ?? $category->slug);
-            $sitemapInstance->add(Url::create($categoryUrl));
-
-            $subcategories = $category->children; 
-
-            foreach ($subcategories as $subcategory) {
-                // Build full path: category + subcategory slug
-                $subcatUrl = url($category->url_path . '/' . $subcategory->slug);
-                $sitemapInstance->add(Url::create($subcatUrl));
-            }
-        }
-
-        // Add other pages
-        $sitemapInstance->add(CmsPage::all());
-
-        // Write to disk
-        $sitemapInstance->writeToDisk('public', $sitemap->path . '/' . $sitemap->file_name);
+        Sitemap::create()
+            ->add(Url::create('/'))
+            ->add(Category::all())
+            ->add(Product::all())
+            ->add(CmsPage::all())
+            ->writeToDisk('public', $sitemap->path . '/' . $sitemap->file_name);
     }
 }

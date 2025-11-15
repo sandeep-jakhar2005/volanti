@@ -314,8 +314,6 @@
                         
                         
                         
-
-  <div><p>This is an order request. The order will reviewed and confirmed by the Volanti team. If your order is within 24 hours we suggest you follow up with a phone call after submission.</p></div>
                         <button class="theme-btn fbo-btn mx-auto my-4 fbo_button fbo_detail_button" id ="fbo_button"
                             style="width:200px" type="submit">
                             <?php echo e(__('shop::app.fbo-detail.fbo-button')); ?>
@@ -784,7 +782,8 @@
                     @click="placeOrder()"                    
                     v-if="selected_payment_method.method != 'paypal_smart_button'"
                     id="checkout-place-order-button">
-                    Request Order
+                    <?php echo e(__('shop::app.checkout.onepage.place-order')); ?>
+
                     <span class="btn-ring"></span>
                     </button>
                 </div>
@@ -1453,7 +1452,7 @@
                                             // sandeep add code || add button original html
                                             $('#checkout-place-order-button').replaceWith(`
                                             <button type="button" id="checkout-place-order-button" class="theme-btn">
-                                                Request Order
+                                                Place Order
                                                 <span class="btn-ring"></span>
                                             </button>
                                         `);

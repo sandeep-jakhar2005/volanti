@@ -579,6 +579,102 @@
                                                 </div>
 
                                                 <div class="control-group col-sm-12 col-md-12 col-lg-12 mb-3"
+                                                    :class="[errors.has('Address2') ? 'has-error' : '                    ready For Services</option>
+                                                        </select>
+                                                    </div>
+                                                    <span class="control-error" v-if="errors.has('packagingsection')"
+                                                        v-text="'The packaging section field is required'"></span>
+                                                </div>
+                                            </div>
+                                            <h4 class="fs24 fw6 text-dark text-center">Delivery Time</h4>
+                                            <div class="row">
+                                                <div class="control-group col-sm-12 col-md-6 col-lg-6 mb-3"
+                                                    :class="[errors.has('delivery_date') ? 'has-error' : '']">
+                                                    <label for="tail number" class="required label-style">
+                                                        {{ __('shop::app.fbo-detail.fbo-delivery-date') }}
+                                                    </label>
+                                                    <input type="text" id="daySelect"
+                                                        class="form-control form-control-lg"
+                                                        value="{{ isset($formattedDate) ? $formattedDate : '' }}"
+                                                        name="delivery_date" readonly v-validate="'required'">
+                                                    <div class="delivery_select_date delivery_select ">
+                                                        <ul id="dayList"></ul>
+                                                    </div>
+
+                                                    {{-- <span class="control-error" v-if="errors.has('delivery_date')"
+                                                        v-text="errors.first('delivery_date')"></span> --}}
+                                                    <span class="fbo_add_error_date text-danger"></span>
+
+                                                </div>
+
+                                                <div class="control-group col-sm-12 col-md-6 col-lg-6 mb-3"
+                                                    :class="[errors.has('delivery_time') ? 'has-error' : '']">
+                                                    <label for="tail number" class="required label-style">
+                                                        {{ __('shop::app.fbo-detail.fbo-delivery-time') }}
+                                                    </label>
+                                                    <input type="text" id="timeSlots" readonly
+                                                        class="form-control form-control-lg"
+                                                        value="{{ $order->delivery_time }}" name="delivery_time"
+                                                        v-validate="'required'">
+                                                    <div class="delivery_select_time delivery_select ">
+                                                        <ul id="timeSlotsList"></ul>
+                                                    </div>
+                                                    <span class="fbo_add_error_time text-danger"></span>
+                                                    {{-- <span class="control-error" v-if="errors.has('delivery_time')"
+                                                        v-text="errors.first('delivery_time')"></span> --}}
+                                                </div>
+
+
+
+
+                                            </div>
+
+                                            <button class="fbo-btn mt-3 m-auto fbo_detail_submit" type="submit">
+                                                {{ __('shop::app.fbo-detail.fbo-update') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {{-- fbo modal end --}}
+
+                    {{-- billing address modal --}}
+                    <div class="modal fade" id="billingAddress" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header fbo-header">
+                                    <h5 class="fs24 fw6 pl-2">
+                                        {{ __('shop::app.billing-address.page-head') }}
+                                    </h5>
+                                    <button type="button" class="close fbo-close" data-dismiss="modal"
+                                        aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body popup-content">
+                                    <div class="body col-12 border-0 p-3">
+                                        <form class ="Billingform" action="{{ route('order-view.update-billing-address') }}" method="post">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" value="{{ $order->id }}" name="order_id">
+                                            <div class="row mb-3">
+                                                <div class="control-group col-sm-12 col-md-12 col-lg-12 mb-3"
+                                                    :class="[errors.has('Address') ? 'has-error' : '']">
+                                                    <label for="Address" class="required label-style mandatory">
+                                                        {{ __('shop::app.billing-address.Address') }}
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-lg"
+                                                        value="{{ isset($order->billing_address->address1) ? $order->billing_address->address1 : '' }}"
+                                                        v-validate="'required'" name='Address' required />
+                                                    <span class="control-error" v-if="errors.has('Address')"
+                                                        v-text="errors.first('Address')"></span>
+                                                </div>
+
+                                                <div class="control-group col-sm-12 col-md-12 col-lg-12 mb-3"
                                                     :class="[errors.has('Address2') ? 'has-error' : '']">
                                                     <label for="Address2" class="label-style">
                                                         {{ __('shop::app.billing-address.address_2') }}

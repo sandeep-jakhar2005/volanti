@@ -27,7 +27,7 @@ Route::group(['middleware' => ['web', 'locale', 'theme', 'currency']], function 
 
 // Registration Routes
     
-    Route::get('/contact', 'Webkul\RKREZA\Contact\Http\Controllers\ContactController@show')
+    Route::get('/contact-us', 'Webkul\RKREZA\Contact\Http\Controllers\ContactController@show')
     		->defaults('_config', ['view' => 'contact_view::contact.shop.index'])
     		->name('shop.contact.index');
     

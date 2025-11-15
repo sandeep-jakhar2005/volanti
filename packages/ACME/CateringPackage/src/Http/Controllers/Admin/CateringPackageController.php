@@ -177,11 +177,12 @@ class CateringPackageController extends Controller
 
             Event::dispatch('core.settings.slider.delete.before', $id);
 
-            $this->CateringPackageRepository->delete($id);
+            // $this->CateringPackageRepository->delete($id);
+            $this->CateringPackageRepository->findOrFail($id)->forceDelete();
 
             Event::dispatch('core.settings.slider.delete.after', $id);
 
-            return response()->json(['message' => trans('admin::app.response.delete-success', ['name' => 'Airport'])]);
+            return response()->json(['message' => 'Airport removed Sucessfully.'], 200);
         } catch (\Exception $e) {
 
             report($e);

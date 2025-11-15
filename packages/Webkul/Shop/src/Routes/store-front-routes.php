@@ -10,7 +10,6 @@ use Webkul\Core\Http\Controllers\CountryStateController;
 use Webkul\Shop\Http\Controllers\CategoryController;
 use Webkul\Shop\Http\Controllers\HomeController;
 use Webkul\Shop\Http\Controllers\ProductController;
-use Webkul\Shop\Http\Controllers\ProductsCategoriesProxyController;
 use Webkul\Shop\Http\Controllers\ReviewController;  
 use Webkul\Shop\Http\Controllers\SearchController;
 use Webkul\Shop\Http\Controllers\SubscriptionController;
@@ -37,13 +36,6 @@ Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
         /**
          * Fallback route.
          */
-Route::get('/product/{slugOrPath?}', [ProductsCategoriesProxyController::class, 'old_index'])
-    ->defaults('_config', [
-        'product_view'    => 'shop::products.oldview',
-        'category_view'   => 'shop::products.oldindex',
-    ])
-    ->name('shop.productOrCategory.old_index');
-
         Route::fallback(\Webkul\Shop\Http\Controllers\ProductsCategoriesProxyController::class . '@index')
             ->defaults('_config', [
                 'product_view' => 'shop::products.view',

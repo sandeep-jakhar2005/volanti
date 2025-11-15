@@ -1,12 +1,7 @@
 @component('shop::emails.layouts.master')
     <div style="text-align: center;">
         <a href="{{ route('shop.home.index') }}">
-                      <img style="width: 100%;
-                        max-width: 300px;
-                        display: block;
-                        margin: 0 auto;"
-            src="https://images.squarespace-cdn.com/content/v1/6171dbc44e102724f1ce58cf/eda39336-24c7-499b-9336-c9cee87db776/VolantiStickers-11.jpg?format=1500w"
-            alt="Volantijet Catering" />
+            @include ('shop::emails.layouts.logo')
         </a>
     </div>
 
@@ -19,11 +14,11 @@
             </span> <br>
 
             <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-                {{ __('shop::app.mail.order.dear', ['customer_name' => $order->customer_full_name ?? $order->fbo_full_name]) }},
+                {{ __('shop::app.mail.order.dear', ['customer_name' => $order->customer_full_name]) }},
             </p>
 
             <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-                {!! __('shop::app.mail.shipment.greeting', [
+                {!! __('shop::app.mail.order.greeting', [
                     'order_id' => '<a href="' . route('shop.customer.orders.view', $order->id) . '" style="color: #0041FF; font-weight: bold;">#' . $order->increment_id . '</a>',
                     'created_at' => core()->formatDate($order->created_at, 'Y-m-d H:i:s')
                     ])
