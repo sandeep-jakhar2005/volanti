@@ -268,7 +268,7 @@ body .modal-content textarea {
 }
 
 .custom-checkout #fboModal .popup-content {
-    max-height: 460px;
+    max-height: 80vh;
     overflow: auto;
     overflow-x: hidden;
 }
