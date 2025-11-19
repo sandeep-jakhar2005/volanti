@@ -1368,6 +1368,9 @@
                                 },
 
                                 placeOrder: async function() {
+                                    var checkoutBtn = $('#checkout-place-order-button');
+                                    checkoutBtn.prop('disabled', true).addClass('disabled');
+                                    checkoutBtn.html('Processing... <span class="btn-ring"></span>'); 
                                     // sandeep|| add code for when payment not save then open payment popop
                                     var rediocheked = $('input[name="saved-card"]:checked');
 
@@ -1389,6 +1392,8 @@
                                         button.classList.remove('checkout_error_button_message'); 
                                     }, 3000); 
                                 }
+                                checkoutBtn.prop('disabled', false).removeClass('disabled');
+    checkoutBtn.html('Place Order <span class="btn-ring"></span>');
                                     return;
                                 }
                                 if (!paymentsaved) {
@@ -1401,6 +1406,8 @@
                                         button.classList.remove('checkout_error_button_message'); 
                                     }, 3000); 
                                 }
+                                checkoutBtn.prop('disabled', false).removeClass('disabled');
+    checkoutBtn.html('Place Order <span class="btn-ring"></span>');
                                 return;
                                 }
 
@@ -1414,12 +1421,16 @@
                                         button.classList.remove('checkout_error_button_message'); 
                                     }, 3000); 
                                 }
+                                checkoutBtn.prop('disabled', false).removeClass('disabled');
+    checkoutBtn.html('Place Order <span class="btn-ring"></span>');
                                     return;
                                 }
 
                                 var checkout_button = $('#checkout-place-order-button');
                                 if (!acknowledge_checkbox || address_checkbox.length === 0 || !paymentsaved ||
                                     fbo_name === "") {
+                                        checkoutBtn.prop('disabled', false).removeClass('disabled');
+    checkoutBtn.html('Place Order <span class="btn-ring"></span>');
                                     return;
                                 }
 
@@ -1462,6 +1473,9 @@
                                         .catch(error => {
                                             this.disable_button = true;
                                             this.$root.hideLoader();
+
+                                                checkoutBtn.prop('disabled', false).removeClass('disabled');
+    checkoutBtn.html('Place Order <span class="btn-ring"></span>');
 
                                             // sandeep add code || add button original html
                                             $('#checkout-place-order-button').replaceWith(`
