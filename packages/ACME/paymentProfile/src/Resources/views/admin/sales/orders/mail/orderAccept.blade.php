@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,6 +57,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container order_view_status">
         <div style="text-align: center;">
@@ -70,10 +72,17 @@
             </a>
         </div>
         {{-- <h3>Order Accepted</h3> --}}
-        <p>Dear {{ $order->customer_first_name !== '' ? $order->customer_first_name : $order->fbo_full_name  }},</p>
-        <p>Thank you for placing an order with <span class="text-info"><a href="{{ route('shop.home.index') }}">Volantijet Catering </a></span>. We are pleased to confirm the receipt of your order #<span class="order-id">{{ $order->increment_id }}</span>, dated <span class="order-date">{{ date('m-d-Y h:i:s A', strtotime($order->created_at)) }}</span>.</p>
-        <p>Your order is now being processed.</p>
+        <p>Dear {{ $order->customer_first_name !== '' ? $order->customer_first_name : $order->fbo_full_name }},</p>
+        <p>Thank you for placing an order with <span class="text-info"><a
+                    href="{{ route('shop.home.index') }}">Volantijet Catering</a></span>. We are pleased to inform you
+            that your order <strong>#{{ $order->increment_id }}</strong>, placed on
+            <strong>{{ date('m-d-Y h:i:s A', strtotime($order->created_at)) }}</strong>, has been
+            <strong>accepted</strong>.</p>
+
+        <p>Your order is now being prepared. We will notify you once it is ready for delivery or pickup.</p>
+
         {{-- <p>Status: <span class="status">{{ $order->status }}</span></p> --}}
     </div>
 </body>
+
 </html>

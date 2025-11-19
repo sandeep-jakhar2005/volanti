@@ -71,7 +71,7 @@
                     alt="Volantijet Catering" />
             </a>
         </div>
-            <table style="width: 100%">
+            {{-- <table style="width: 100%">
                 <tr>
                     <td>
                         <div
@@ -127,7 +127,6 @@
                                                         ->value('additional_notes');
                                             @endphp
                                             <tr class="order_view_table_body" style="height: 110px;">
-                                                {{-- @dd($item) --}}
                                                 <td
                                                     style="
                                                 max-width: 130px;font-size:11px;">
@@ -160,13 +159,6 @@
                                                     
                                                 @endif
 
-                                                {{-- <td>
-                                                    <span class="qty-row">
-                                                        Qty: 
-                                                        {{ $item->qty_ordered }}
-                                                    </span>
-
-                                                </td> --}}
                                                 @if ($order->status === 'pending')
                                                     <td>NA</td>
                                                 @else
@@ -181,7 +173,7 @@
                         </div>
                     </td>
                 </tr>
-            </table>
+            </table> --}}
         <p style="font-weight:600;">Order Id: #{{ $order->id }}</p>
         <P>order date: {{ date('m-d-Y h:i:s A', strtotime($order->created_at)) }}</P>
         <span style="font-weight: 600;">Comments: {{ $comment->notes }}</span>

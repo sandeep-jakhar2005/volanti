@@ -57,11 +57,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {{-- sandeep add no follow meta tag --}}
     <meta name="robots" content="nofollow">
     {{-- fav icon --}}
-    @if ($favicon = core()->getCurrentChannel()->favicon_url)
+    {{-- @if ($favicon = core()->getCurrentChannel()->favicon_url)
     <link rel="icon" sizes="16x16" href="{{ $favicon }}" />
-    @else
+    @else --}}
     <link rel="icon" sizes="16x16" href="{{ asset('/themes/volantijetcatering/assets/images/static/v-icon.png') }}" />
-    @endif
+    {{-- @endif --}}
 
     {{-- all styles --}}
     @include('shop::layouts.styles')
