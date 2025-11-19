@@ -4,3 +4,6 @@
 .vscode
 
 .codegpt
+/vendor
+/tests
+/storage

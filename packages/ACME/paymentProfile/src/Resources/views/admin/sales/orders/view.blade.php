@@ -578,13 +578,13 @@
                                                         v-text="errors.first('Address')"></span>
                                                 </div>
 
-                                                <div class="control-group col-sm-12 col-md-12 col-lg-12 mb-3"
-                                                    :class="[errors.has('Address2') ? 'has-error' : '                    ready For Services</option>
-                                                        </select>
-                                                    </div>
-                                                    <span class="control-error" v-if="errors.has('packagingsection')"
-                                                        v-text="'The packaging section field is required'"></span>
-                                                </div>
+                                                <div class="control-group col-sm-12 col-md-12 col-lg-12 mb-3" :class="[errors.has('Address2') ? 'has-error' : '']">
+                                                <label for="Address2" class="required label-style mandatory">
+                                                    Address 2
+                                                </label>
+                                                <input type="text" class="form-control form-control-lg" value="{{ isset($order->billing_address->address2) ? $order->billing_address->address2 : '' }}" v-validate="'required'" name='Address2' required />
+                                                <span class="control-error" v-if="errors.has('Address2')" v-text="errors.first('Address2')"></span>
+                                            </div>
                                             </div>
                                             <h4 class="fs24 fw6 text-dark text-center">Delivery Time</h4>
                                             <div class="row">

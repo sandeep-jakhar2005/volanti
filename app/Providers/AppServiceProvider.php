@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\GraphTransport;
+use App\Services\MicrosoftGraphMailService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+Mail::extend('graph', function () {
+    return new \App\Mail\GraphTransport(
+        app(\App\Services\MicrosoftGraphMailService::class)
+    );
+});
     }
 
     /**

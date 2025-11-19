@@ -45,6 +45,10 @@ return [
             'verify_peer' => false,
         ],
 
+        'graph' => [
+            'transport' => 'graph'
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],

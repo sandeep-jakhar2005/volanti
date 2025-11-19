@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
-
+<script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/8f45c4fd62f9f44ea4e7a1e6/script.js"></script>
     {{-- <link rel="preload" href="{{ asset('themes/volantijetcatering/assets/fonts/font-awesome/Fino-Sans-Regular.otf') }}" /> --}}
 {{-- sandeep add fino sans font family link --}}
     <link rel="preload" href="{{ asset('themes/volantijetcatering/assets/fonts/font-awesome/Fino-Sans-Regular.otf') }}" as="font" type="font/otf" 
