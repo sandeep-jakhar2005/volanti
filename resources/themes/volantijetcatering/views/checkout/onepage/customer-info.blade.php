@@ -53,39 +53,36 @@
     // sandeep get airport data and fbo data
     $Airports = DB::table('delivery_location_airports')->select('name', 'id')->get();
 
-    
     // $AirportsFbo = DB::table('airport_fbo_details')->select('name', 'id')->get();
-    
-    if(Auth::check()){
+
+    if (Auth::check()) {
         $AirportsFbo = DB::table('airport_fbo_details')
             ->select('name', 'id')
             ->where('customer_id', $customer->id)
             ->orWhere(function ($query) {
-                $query->whereNull('customer_id')
-                    ->whereNull('customer_token');
+                $query->whereNull('customer_id')->whereNull('customer_token');
             })
             ->get();
-       }else{
+    } else {
         $AirportsFbo = DB::table('airport_fbo_details')
             ->select('name', 'id')
             ->where('customer_token', $guestToken)
             ->orWhere(function ($query) {
-                $query->whereNull('customer_id')
-                    ->whereNull('customer_token');
+                $query->whereNull('customer_id')->whereNull('customer_token');
             })
             ->get();
-       }
+    }
     //    dd($AirportsFbo);
     //    dd($defaultAddress);
 @endphp
 
-  
+
 
 <!-- Modal -->
 @if (Auth::check())
     <form action="">
         @csrf
-        <div class="modal fade sandeep_model" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -110,7 +107,7 @@
                                     <div class="col-lg-3 col-md-3 col-3">
                                         <input type="hidden" id="airport_id" value="0" class="">
                                         <button v-if="allAddress.length > 0" class="btn btn-danger m-auto address-btn"
-                                             type="button" id="address_update">Search</button>
+                                            type="button" id="address_update">Search</button>
                                         <button v-else class="btn btn-danger m-auto address-btn" type="button"
                                             id="address_update">Search</button>
                                     </div>
@@ -138,69 +135,68 @@
             </div>
         </div>
 
-    <div class="modal fade add_fbo_modal" id="exampleModalCenter" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-center" id="exampleModalCenterTitle">
-                    <img class="Navigation-image"
-                        src="{{ asset('themes/volantijetcatering/assets/images/home/store.svg') }}"
-                        alt="" />
-                    Add New Fbo
-                </h5>
-                <button type="button" class="fboClose" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-container">
-                    <div class="input_wrapper">
-                        <label for="fbo-name" class="mandatory">Fbo Name</label>
-                        <input type="text" class="control" id="fbo-name" name="name"
-                            v-validate="'required'" value="" />
-                            <!-- sandeep comment code -->
-                         <!-- <span class="control-error"
+        <div class="modal fade add_fbo_modal" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="exampleModalCenterTitle">
+                            <img class="Navigation-image"
+                                src="{{ asset('themes/volantijetcatering/assets/images/home/store.svg') }}"
+                                alt="" />
+                            Add New Fbo
+                        </h5>
+                        <button type="button" class="fboClose" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-container">
+                            <div class="input_wrapper">
+                                <label for="fbo-name" class="mandatory">Fbo Name</label>
+                                <input type="text" class="control" id="fbo-name" name="name"
+                                    v-validate="'required'" value="" />
+                                <!-- sandeep comment code -->
+                                <!-- <span class="control-error"
                             v-if="errors.has('name')">@{{ errors.first('name') }}</span> -->
-                            <span class="control-error" id="name-error">
-                            </span>
-                    </div> 
+                                <span class="control-error" id="name-error">
+                                </span>
+                            </div>
 
-                    <div class="input_wrapper">
-                        <label for="fbo-address" class="mandatory">Address</label>
-                        <textarea v-validate="'required'" class="control" id="fbo-address" name="address" rows="5"></textarea>
-                         <!-- sandeep comment code -->
-                        <!-- <span class="control-error"
+                            <div class="input_wrapper">
+                                <label for="fbo-address" class="mandatory">Address</label>
+                                <textarea v-validate="'required'" class="control" id="fbo-address" name="address" rows="5"></textarea>
+                                <!-- sandeep comment code -->
+                                <!-- <span class="control-error"
                             v-if="errors.has('address')">@{{ errors.first('address') }}</span> -->
-                            <span class="control-error" id="address-error">
-                            </span>
-                    </div>
-                    <div class="input_wrapper">
-                        <label for="fbo-notes">Notes (Optional)</label>
-                        <textarea class="control" id="fbo-notes" name="notes" rows="5"></textarea>
-                        <!-- <span class="control-error"
+                                <span class="control-error" id="address-error">
+                                </span>
+                            </div>
+                            <div class="input_wrapper">
+                                <label for="fbo-notes">Notes (Optional)</label>
+                                <textarea class="control" id="fbo-notes" name="notes" rows="5"></textarea>
+                                <!-- <span class="control-error"
                             v-if="errors.has('notes')">@{{ errors.first('notes') }}</span> -->
-                            <span class="control-error" id="notes-error">
-                            </span>
+                                <span class="control-error" id="notes-error">
+                                </span>
+                            </div>
+
+                            <button id="add-fbo-button">
+                                <img class='suggestion-icon'
+                                    src='/themes/volantijetcatering/assets/images/home/plus-circle1.svg'>
+                                ADD</button>
+                        </div>
                     </div>
 
-                    <button id="add-fbo-button">
-                        <img class='suggestion-icon'
-                            src='/themes/volantijetcatering/assets/images/home/plus-circle1.svg'>
-                        ADD</button>
                 </div>
             </div>
-
         </div>
-    </div>
-</div>
     </form>
-
 @else
     <form id="AirportForm">
         @csrf
-        <div class="modal fade sandeep_model" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade sandeep_model" id="exampleModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header address-header pb-0">
@@ -216,15 +212,15 @@
                     <div class="modal-body">
                         <div class="input-group">
                             <div class="search-content">
-                                <div class="row">
-                                    <div class="col-lg-9 col-md-9 col-8 pr-0">
-                                        <input type="text" id="auto_search" class="form-control"
-                                            placeholder="Search Delivery Location"
-                                            attr="{{ isset($airpport) ? $airpport->airport_id : '' }}"
-                                            @if (isset($address)) value="{{ $address->airport_name }}" @endif>
-                                        <div id="address-list" class="suggestion-list"></div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-3">
+                                {{-- <div class="row"> --}}
+                                {{-- <div class="col-lg-9 col-md-9 col-8 pr-0"> --}}
+                                <input type="text" id="auto_search" class="form-control"
+                                    placeholder="Search Delivery Location"
+                                    attr="{{ isset($airpport) ? $airpport->airport_id : '' }}"
+                                    @if (isset($address)) value="{{ $address->airport_name }}" @endif>
+                                <div id="address-list" class="suggestion-list"></div>
+                                {{-- </div> --}}
+                                {{-- <div class="col-lg-3 col-md-3 col-3">
                                         <input type="hidden" id="airport_id" value="0">
                                         @if ($customer_address)
                                             <button class="btn btn-danger m-auto address-btn" type="button"
@@ -233,16 +229,17 @@
                                             <button class="btn btn-danger m-auto address-btn" type="button"
                                                 id="address_update">Search</button>
                                         @endif
-                                    </div>
-                                </div>
+                                    </div> --}}
+                                {{-- </div> --}}
                             </div>
                         </div>
 
                         {{-- sandeep add fbo detail --}}
 
                         <div class="search__wrapper">
-                            <input type="text" id="airport-fbo-input" class="form-control bg-white pr-4 pl-1 pointer"
-                                {{-- attr="{{ isset($airport_fbo) ? $airport_fbo : '' }}" --}} placeholder="Airport Fbo Detail" readonly
+                            <input type="text" id="airport-fbo-input"
+                                class="form-control bg-white pr-4 pl-1 pointer" {{-- attr="{{ isset($airport_fbo) ? $airport_fbo : '' }}" --}}
+                                placeholder="Airport Fbo Detail" readonly
                                 @if (isset($airpport)) value="{{ $airpport->fbo_name }}" @endif>
                             <img class="Navigation-image pointer pr-2" id="airportImageFbo"
                                 src="{{ asset('themes/volantijetcatering/assets/images/home/down-arrow.svg') }}"
@@ -255,64 +252,75 @@
 
 
                         </div>
+                        <div class="row">
+                            <div class="col-12 d-flex">
+                                <input type="hidden" id="airport_id" value="0">
+                            @if ($customer_address)
+                                <button class="btn btn-danger ml-auto address-btn px-4" type="button"
+                                    id="address_update">Save</button>
+                            @else
+                                <button class="btn btn-danger ml-auto address-btn px-4" type="button"
+                                    id="address_update">Save</button>
+                            @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-         {{-- Popup to add FBO detail --}}
-         <div class="modal fade add_fbo_modal" id="exampleModalCenter" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered" role="document">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h5 class="modal-title text-center" id="exampleModalCenterTitle">
-                         <img class="Navigation-image"
-                             src="{{ asset('themes/volantijetcatering/assets/images/home/store.svg') }}"
-                             alt="" />
-                         Add New Fbo
-                     </h5>
-                     <button type="button" class="fboClose" data-dismiss="modal"
-                         aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                     </button>
-                 </div>
-                 <div class="modal-body">
-                     <div class="form-container">
-                         <div class="input_wrapper">
-                             <label for="fbo-name" class="mandatory">Fbo Name</label>
-                             <input type="text" class="control" id="fbo-name" name="name"
-                                 v-validate="'required'" value="" />
-                             
-                                 <span class="control-error" id="name-error">
-                                 </span>
-                         </div>
-                         <div class="input_wrapper">
-                             <label for="fbo-address" class="mandatory">Address</label>
-                             <textarea v-validate="'required'" class="control" id="fbo-address" name="address" rows="5"></textarea>
-                             
-                             <span class="control-error" id="address-error">
-                             </span>
-                         </div>
-                         <div class="input_wrapper">
-                             <label for="fbo-notes">Notes (Optional)</label>
-                             <textarea class="control" id="fbo-notes" name="notes" rows="5"></textarea>
-                             
-                             <span class="control-error" id="notes-error">
-                             </span>
-                         </div>
+        {{-- Popup to add FBO detail --}}
+        <div class="modal fade add_fbo_modal" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="exampleModalCenterTitle">
+                            <img class="Navigation-image"
+                                src="{{ asset('themes/volantijetcatering/assets/images/home/store.svg') }}"
+                                alt="" />
+                            Add New Fbo
+                        </h5>
+                        <button type="button" class="fboClose" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-container">
+                            <div class="input_wrapper">
+                                <label for="fbo-name" class="mandatory">Fbo Name</label>
+                                <input type="text" class="control" id="fbo-name" name="name"
+                                    v-validate="'required'" value="" />
 
-                         <button id="add-fbo-button">
-                             <img class='suggestion-icon'
-                                 src='/themes/volantijetcatering/assets/images/home/plus-circle1.svg'>
-                             ADD</button>
-                     </div>
-                 </div>
+                                <span class="control-error" id="name-error">
+                                </span>
+                            </div>
+                            <div class="input_wrapper">
+                                <label for="fbo-address" class="mandatory">Address</label>
+                                <textarea v-validate="'required'" class="control" id="fbo-address" name="address" rows="5"></textarea>
 
-             </div>
-         </div>
-     </div>
-     <!-- End Modal for adding FBO -->
+                                <span class="control-error" id="address-error">
+                                </span>
+                            </div>
+                            <div class="input_wrapper">
+                                <label for="fbo-notes">Notes (Optional)</label>
+                                <textarea class="control" id="fbo-notes" name="notes" rows="5"></textarea>
+
+                                <span class="control-error" id="notes-error">
+                                </span>
+                            </div>
+
+                            <button id="add-fbo-button">
+                                <img class='suggestion-icon'
+                                    src='/themes/volantijetcatering/assets/images/home/plus-circle1.svg'>
+                                ADD</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Modal for adding FBO -->
 
 
     </form>
@@ -326,7 +334,7 @@
             <div class="address-container row full-width no-margin" id="address-container">
                 <div :key="index" class="col-lg-6 col-md-12 address-holder pl0 ordering-from"
                     v-for='(addresses, index) in allAddress'>
-                    
+
                     <div class="border-0" style="width: 100%;">
                         <div class="row address-row">
                             <div class="col-1">
@@ -339,7 +347,7 @@
                                     <label :for="'billing_address_id_' + addresses.id" class="radio-view px-2"></label>
                                 </div>
                             </div>
-                            
+
                             <div class="col-9 address-column">
                                 <h4 class="card-title fw6">Ordering From</h4>
                                 {{-- sandeep --}}
@@ -363,9 +371,11 @@
                                             <span v-text="addresses.postcode"></span>
                                         </li> -->
                                     <!-- <li>{{ __('shop::app.customer.account.address.index.contact') }} : @{{ addresses.phone }}</li> -->
-                                    <div class="mt-2 text-break"  id="airport_fbo_details" :class="{ 'd-none': !addresses.fbo_name }">
+                                    <div class="mt-2 text-break" id="airport_fbo_details"
+                                        :class="{ 'd-none': !addresses.fbo_name }">
                                         <h5 class="child-card-title mb-0">Airport Fbo</h5>
-                                        <li class="airport_fboName" v-text="addresses.fbo_name" id="AirportFbo_Name"></li>
+                                        <li class="airport_fboName" v-text="addresses.fbo_name" id="AirportFbo_Name">
+                                        </li>
                                         {{-- <li class="airport_fboAddress" v-text="addresses.fbo_address" id="airport_fbo_address"></li> --}}
                                     </div>
                                 </ul>
@@ -436,8 +446,8 @@
     @if (count(auth('customer')->user()->addresses))
     <a class="theme-btn light back-button text-up-14" @click="backToSavedBillingAddress()">
 
-                                                                        {{ __('shop::app.checkout.onepage.back') }}
-                                                                    </a>
+                                                                                    {{ __('shop::app.checkout.onepage.back') }}
+                                                                                </a>
     @endif
 @endauth
 
@@ -449,8 +459,8 @@
         </accordian> -->
         @if (Auth::check())
             <h4 class="card-title fw6 mt-3">Ordering From</h4>
-            <button type="button" class="btn mb-3 theme-btn add-address-btn" style="font-size:14px" data-toggle="modal"
-                data-target="#exampleModal">Choose Location</button>
+            <button type="button" class="btn mb-3 theme-btn add-address-btn" style="font-size:14px"
+                data-toggle="modal" data-target="#exampleModal">Choose Location</button>
         @else
             @if ($customer_address == null)
                 <h4 class="card-title fw6 mt-3">Ordering From</h4>
@@ -483,8 +493,8 @@
                                         <li class="airport_name" id="airport_name">
                                             {{ $customer_address->airport_name }}</li>
                                         <input type="hidden" id="selected_airport_id"
-                                            value="{{ $airpport->airport_id??'' }}" />
-                                        <li class="airport_fbo_id" hidden>{{$customer_address->airport_fbo_id}}</li>
+                                            value="{{ $airpport->airport_id ?? '' }}" />
+                                        <li class="airport_fbo_id" hidden>{{ $customer_address->airport_fbo_id }}</li>
                                         <li id="Airport_Address">{{ $customer_address->address1 }}</li>
                                         <li class="default_address" style="display:none">
                                             {{ $customer_address->default_address }}</li>
@@ -506,14 +516,16 @@
                 </div>
             @endif
         @endif
-           
-        <div class="text-break pl-4 pl-lg-3 mb-2 pb-3  ml-lg-1  {{!isset($airpport) ? 'd-none' : ''}}" id="airport_fbo_details" type="none">
+
+        <div class="text-break pl-4 pl-lg-3 mb-2 pb-3  ml-lg-1  {{ !isset($airpport) ? 'd-none' : '' }}"
+            id="airport_fbo_details" type="none">
             <h5 class="child-card-title mb-0">Airport Fbo</h5>
-            <p class="airport_fboName mb-0" id="AirportFbo_Name">{{ isset($airpport) ? $airpport->fbo_name : ''  }}</p>
+            <p class="airport_fboName mb-0" id="AirportFbo_Name">{{ isset($airpport) ? $airpport->fbo_name : '' }}
+            </p>
         </div>
 
-                            {{-- sandeep add fbo detail  --}}  
-                             {{-- <div class='row mt-2 order-body pl-3 {{!isset($airpport) ? 'd-none' : ''}}' id="airport_fbo_details" type="none">
+        {{-- sandeep add fbo detail  --}}
+        {{-- <div class='row mt-2 order-body pl-3 {{!isset($airpport) ? 'd-none' : ''}}' id="airport_fbo_details" type="none">
                                 <div class='col-12'><h5 class="card-title child-card-title fw6">Airport Fbo</h5></div>
                                 <div class='fbo-body px-3 mb-2'>
                                       <h6 class="ml-2" id="AirportFbo_Name">{{ isset($airpport) ? $airpport->fbo_name : ''  }}</h6>
@@ -625,27 +637,25 @@
 </form>
 
 @push('scripts')
-    
     <script>
-
-      // Sandeep: Show all airport and FBO data
+        // Sandeep: Show all airport and FBO data
         var airportsData = @json(isset($Airports) ? $Airports : []);
         var airportsFboData = @json(isset($AirportsFbo) ? $AirportsFbo : []);
         var defaultAddressId = @json(isset($defaultAddress->id) ? $defaultAddress->id : 0);
         var isAuthenticated = @json(auth('customer')->check());
-        
+
         var airport_id = 0;
         @if (isset($airport_id))
-        airport_id = {{ $airport_id->id }};
+            airport_id = {{ $airport_id->id }};
         @endif
         // 
 
         jQuery(document).ready(function() {
-            
-            $('body').on('click','#acknowledge_checkbox',function(){
+
+            $('body').on('click', '#acknowledge_checkbox', function() {
                 if (isAuthenticated) {
                     console.log('user is login');
-                }else{
+                } else {
                     console.log('user not login');
                 }
             });
@@ -676,7 +686,8 @@
             checkElement('.Billing_Address_button', function() {
                 if ($('body').find('.Billing_Address_button').length > 1) {
                     // sandeep add code 
-                    var airport_fbo_id = $('.Billing_Address_button:checked').closest(".row").find(".airport_fbo_id").text();
+                    var airport_fbo_id = $('.Billing_Address_button:checked').closest(".row").find(
+                        ".airport_fbo_id").text();
                     if (defaultAddressId) {
                         var defaultAddress = jQuery('#billing_address_id_' + defaultAddressId);
                         defaultAddress.click();
@@ -715,12 +726,12 @@
                 // var matchedAirportFbo = airportsFboData.find(airportFbo => airportFbo.id == airport_fbo_id);
                 if (fbo_name) {
                     $('#airport-fbo-input').val(fbo_name);
-                    $('#airport-fbo-input').attr('attr',fbo_name);
+                    $('#airport-fbo-input').attr('attr', fbo_name);
                     // $('#AirportFbo_Name').text(matchedAirportFbo.name);
                 } else {
                     $('#airport-fbo-input').val('');
                 }
-                
+
             });
 
 
@@ -728,7 +739,7 @@
             jQuery('body').on('click', '#Edit_Airport', function() {
                 // sandeep check airport name and fbo input 
                 var airport_fbo_id = $(this).closest(".row").find(".airport_fbo_id").text();
-                $('#selected-fbo-id').val(airport_fbo_id);  
+                $('#selected-fbo-id').val(airport_fbo_id);
                 var name = jQuery('#auto_search').val();
                 var airportFbo = jQuery('#airport-fbo-input').val();
                 var airportFboiD = jQuery('#selected-fbo-id').val();
@@ -758,7 +769,7 @@
 
                 var acknowledge_checkbox = $('#acknowledge_checkbox');
 
-                var isAcknowledgeChecked = acknowledge_checkbox.prop('checked'); 
+                var isAcknowledgeChecked = acknowledge_checkbox.prop('checked');
                 var fbo_name = $('#airport_fbo_details').find('#AirportFbo_Name').text().trim();
                 // var isButtonChecked = $(this).prop('checked');
 
@@ -779,7 +790,7 @@
                         'type': 'Update_Fbo_Billing',
                     },
                     success: function(result) {
-                        
+
                     }
 
                 });
@@ -795,34 +806,34 @@
             var customer_token = '<?php echo $guestToken; ?>';
             var customerArray = <?php echo json_encode($airportArr); ?>;
 
-          // sandeep ||add timeout code for airport list search
-             let typingTimer;
+            // sandeep ||add timeout code for airport list search
+            let typingTimer;
             const typingDelay = 500;
             jQuery('body').on('keyup click', '#auto_search', function() {
                 var name = jQuery(this).val();
-                clearTimeout(typingTimer); 
+                clearTimeout(typingTimer);
                 // here when ajax hit then show airport  
                 jQuery('#checkout_airport-fbo-list').hide();
                 if ($.inArray(name, customerArray) === -1) {
                     // jQuery('#address_update').prop('disabled', true);
                 }
- 
+
                 typingTimer = setTimeout(function() {
-                $.ajax({
-                    url: "{{ route('shop.home.index') }}",
+                    $.ajax({
+                        url: "{{ route('shop.home.index') }}",
 
-                    type: 'GET',
-                    data: {
-                        'name': name,
-                        'type': 'address_search'
-                    },
-                    success: function(result) {
-                        //console.log(result);
-                        jQuery("#address-list").html(result);
-                    }
-                });
+                        type: 'GET',
+                        data: {
+                            'name': name,
+                            'type': 'address_search'
+                        },
+                        success: function(result) {
+                            //console.log(result);
+                            jQuery("#address-list").html(result);
+                        }
+                    });
 
-            }, typingDelay);
+                }, typingDelay);
 
             })
 
@@ -853,7 +864,7 @@
 
             //  sandeep update address detail  
             jQuery('body').on('click', '#address_update', function() {
-console.log('click address button');
+                console.log('click address button');
                 var fbo_id = jQuery("#selected-fbo-id").val().trim();
                 var airport_id = jQuery('#auto_search').attr('attr');
                 var delivery_address = jQuery("#auto_search").val().trim();
@@ -861,18 +872,20 @@ console.log('click address button');
                 // fbo 
                 var name = jQuery("#airport-fbo-input").val().trim();
                 //sandeep 
- if(!airport_id){
+                if (!airport_id) {
                     let element = $('#auto_search');
-                    element.addClass('homepage_error_focus').attr('style', 'border: 1px solid #f84661 !important;');
+                    element.addClass('homepage_error_focus').attr('style',
+                        'border: 1px solid #f84661 !important;');
                     setTimeout(() => {
                         element.removeClass('homepage_error_focus').removeAttr('style');
                     }, 3000);
                     return;
                 }
 
-                if(!fbo_id){
+                if (!fbo_id) {
                     let element = $('#airport-fbo-input');
-                    element.addClass('homepage_error_focus').attr('style', 'border: 1px solid #f84661 !important;');
+                    element.addClass('homepage_error_focus').attr('style',
+                        'border: 1px solid #f84661 !important;');
                     setTimeout(() => {
                         element.removeClass('homepage_error_focus').removeAttr('style');
                     }, 3000);
@@ -919,7 +932,7 @@ console.log('click address button');
                     success: function(result) {
 
                         //console.log(result);
-                        var airportId = result.data.id;        
+                        var airportId = result.data.id;
                         location.reload();
                         window.flashMessages = [{
                             'type': 'alert-success',
@@ -927,14 +940,14 @@ console.log('click address button');
                         }];
                     },
                     error: function(xhr, status, error) {
-                    if (xhr.status === 419) {
-                        window.location.href = '/';
+                        if (xhr.status === 419) {
+                            window.location.href = '/';
+                        }
                     }
-               }
                 });
             });
 
-            
+
             $(document).on('click', '.custom-option', function() {
                 var selectedText = $(this).find('.airport-name').text().trim();
                 var selectedId = $(this).data('id');
@@ -958,7 +971,7 @@ console.log('click address button');
                 if (jQuery('.custom-dropdown-list').css('display') == 'block') {
                     return;
                 }
-                
+
                 var airport_id = jQuery('#auto_search').attr('attr');
                 $('#checkout_airport-fbo-list').toggle();
                 // If an airport_id is present, make the AJAX call
@@ -970,17 +983,17 @@ console.log('click address button');
                             '_token': "{{ csrf_token() }}",
                             'airport_id': airport_id,
                             'type': 'airport_fbo_detail'
-                            },
-                            success: function(response) {
+                        },
+                        success: function(response) {
                             //console.log(response.options);
                             if (response.options) {
                                 $('#checkout_airport-fbo-list').removeClass('d-none');
                                 $("#checkout_airport-fbo-list").html(response.options);
                             }
                         },
-                            error: function(xhr, status, error) {
-                                console.error('AJAX Error:', status, error);
-                            }
+                        error: function(xhr, status, error) {
+                            console.error('AJAX Error:', status, error);
+                        }
                     });
                 }
             });
@@ -997,9 +1010,9 @@ console.log('click address button');
                 let fboName = $('#fbo-name').val();
                 let fboaddress = $('#fbo-address').val();
                 let fboNotes = $('#fbo-notes').val();
-                if(fboName && fboaddress){
-                $(this).html('<span class="btn-ring"></span>');
-                $(this).find(".btn-ring").show();
+                if (fboName && fboaddress) {
+                    $(this).html('<span class="btn-ring"></span>');
+                    $(this).find(".btn-ring").show();
                 }
 
                 if (airport_id || input_airport_id) {
@@ -1029,7 +1042,7 @@ console.log('click address button');
                             $('#add-fbo-button').html(originalContent);
                             $('.btn-ring').hide();
                         },
-                        error: function(xhr,status,error) {
+                        error: function(xhr, status, error) {
                             if (xhr.status === 422) {
                                 // $('#add-fbo-button').prop('disabled',true);
                                 $.each(xhr.responseJSON.errors, function(key, value) {
@@ -1046,10 +1059,10 @@ console.log('click address button');
                     });
                 }
             });
-            
+
 
             // sandeep ||add code 
-            $('body').on('click','.modal_open_button',function(){
+            $('body').on('click', '.modal_open_button', function() {
                 // $('#add-fbo-button').prop('disabled',true);
             });
 
@@ -1063,14 +1076,14 @@ console.log('click address button');
 
 
             // sandeep || open modal code
-            jQuery('body').on('click','.modal_open_button',function(){
-             $('#exampleModalCenter').on('show.bs.modal', function (event) {
+            jQuery('body').on('click', '.modal_open_button', function() {
+                $('#exampleModalCenter').on('show.bs.modal', function(event) {
                     $('#exampleModalCenter').addClass('show');
                     $('.modal-backdrop').remove();
                     if (!$('.modal-backdrop.fade.show').length) {
-                    $('<div>', {
-                        class: 'modal-backdrop fade show'
-                    }).appendTo('body');
+                        $('<div>', {
+                            class: 'modal-backdrop fade show'
+                        }).appendTo('body');
                     }
                     if (!$('.modal-backdrop.fade.in').length) {
                         $('<div>', {
@@ -1078,10 +1091,10 @@ console.log('click address button');
                         }).appendTo('body');
                     }
 
-               })
-                $('#exampleModalCenter').on('shown.bs.modal', function (event) {
+                })
+                $('#exampleModalCenter').on('shown.bs.modal', function(event) {
                     $('body').addClass('modal-open');
-               })
+                })
             });
 
             //Function to reset form fields
@@ -1089,10 +1102,10 @@ console.log('click address button');
                 $('#fbo-name, #fbo-address, #fbo-notes').val('');
                 $('.fboClose').click();
                 $('#exampleModalCenter').removeClass('show').css('display', 'none');
-                $('#exampleModalCenter').on('hidden.bs.modal', function (event) {
-                  $('body').addClass('modal-open'); 
+                $('#exampleModalCenter').on('hidden.bs.modal', function(event) {
+                    $('body').addClass('modal-open');
                 });
-           }
+            }
 
             jQuery('body').on('click', '#add_airport_fbo', function() {
                 var delivery_address = jQuery("#auto_search").val();
@@ -1100,35 +1113,34 @@ console.log('click address button');
                 airportFbo(jQuery(this).data('id'));
             });
         });
-                
+
         // sandeep add code
-            $(document).on('click', 'body, .fboClose', function() {
-            $('#exampleModalCenter').on('hidden.bs.modal', function (event) {
-                    $('body').addClass('modal-open');
+        $(document).on('click', 'body, .fboClose', function() {
+            $('#exampleModalCenter').on('hidden.bs.modal', function(event) {
+                $('body').addClass('modal-open');
             })
         });
 
-            // sandeep || check erorr in fbo model and stop form submitting
-                $('body').on('click', '.fbo_Info', function(event) {
-                    var hasError = false;
-                    $('.control-group').each(function() {
-                        var errorText = $(this).find('.control-error').text();
-                        if (errorText.trim() !== '') {
-                            hasError = true; 
-                        }
-                    });
-                    if (hasError) {
-                        event.preventDefault();
-                    }else{
-                        $(this).html('<span class="btn-ring"></span>');
-                        $(this).find(".btn-ring").show();
-                        $(this).find('.btn-ring').css({
-                        'display': 'flex',
-                        'justify-content': 'center',
-                        'align-items': 'center'
-                    });
-                    }
+        // sandeep || check erorr in fbo model and stop form submitting
+        $('body').on('click', '.fbo_Info', function(event) {
+            var hasError = false;
+            $('.control-group').each(function() {
+                var errorText = $(this).find('.control-error').text();
+                if (errorText.trim() !== '') {
+                    hasError = true;
+                }
+            });
+            if (hasError) {
+                event.preventDefault();
+            } else {
+                $(this).html('<span class="btn-ring"></span>');
+                $(this).find(".btn-ring").show();
+                $(this).find('.btn-ring').css({
+                    'display': 'flex',
+                    'justify-content': 'center',
+                    'align-items': 'center'
                 });
-
+            }
+        });
     </script>
 @endpush

@@ -27,7 +27,7 @@
                         <div class="volanti_site_button pr-3">
                             {{-- menu added --}}
                             {{-- sandeep add route --}}
-                            <a href="{{ route('shop.product.parentcat') }}" target="_blank">menu</a>
+                            <a href="{{ route('shop.product.parentcat') }}" >menu</a>
                         </div>
                         <div class="icon-wrapper">
 

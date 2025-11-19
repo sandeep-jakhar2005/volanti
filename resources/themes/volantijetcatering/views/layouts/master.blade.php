@@ -124,6 +124,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- End Google Tag Manager (noscript) -->
 
     {{-- Loader HTML --}}
+    
     <div class="loader-wrapper">
         <div class="loader"></div>
     </div>

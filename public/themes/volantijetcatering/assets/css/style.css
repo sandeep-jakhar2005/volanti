@@ -383,7 +383,7 @@ body .modal-content textarea {
     height: 30px;
     width: 100px;
     border-radius: 5px;
-    background: #e7a1ac;
+    background: #f75c74;
     color: white;
     font-size: 15px;
     display: flex;
@@ -525,6 +525,7 @@ body .modal-content textarea {
 .header_searchbar_close_button,
 .search__container .rango-search {
     transition: opacity 0.3s ease;
+    cursor: pointer;
 }
 
 .airport__fbo__detail .search-content .suggestion-img-div .suggestion-icon {
@@ -549,7 +550,7 @@ body .modal-content textarea {
 }
 
 #airport-fbo-list .add_fbo_detail {
-    background: #e7a1ac;
+    background: #f75c74;
     font-size: 18px;
     font-weight: 600 !important;
     color: white;
@@ -1246,7 +1247,7 @@ body .close:focus {
     color: #ffffff;
     /*border: 1px solid #000000;
     */border: none;
-    background: #e7a1ac;
+    background: #f75c74;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
@@ -1256,8 +1257,8 @@ body .close:focus {
 .pay_disable {
     cursor: not-allowed;
     color: #fff !important;
-    border: 1px solid #e7a1ac !important;
-    background: #e7a1ac !important;
+    border: 1px solid #f75c74 !important;
+    background: #f75c74 !important;
 }
 
 .existing_card #saved-cards {
@@ -1300,7 +1301,7 @@ body .close:focus {
 }
 
 .fbo-detail .thank__create button:hover {
-    background: #e7a1ac !important;
+    background: #f75c74 !important;
     color: white;
     border:0;
 }
@@ -2111,7 +2112,7 @@ button.close.fbo-close span {
 }
 
 .image-container .btn-primary {
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
     border: none;
     margin: -26px 0 8px 0;
 }
@@ -2186,7 +2187,7 @@ button.close.fbo-close span {
 }
 
 .account-action a.profile-edit:focus {
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
 }
 
 /* related product hover overflow:hidden removed */
@@ -2675,13 +2676,13 @@ button.btn-rate {
 }
 
 body .theme-btn.light:hover {
-    background: #e7a1ac !important;
+    background: #f75c74 !important;
     color: white !important;
 }
 
 button.theme-btn,
 a.theme-btn {
-    background: #e7a1ac !important;
+    background: #f75c74 !important;
     color: white !important;
     font-size: 22px !important;
     font-weight: 500 !important;
@@ -2694,13 +2695,13 @@ button.theme-btn:hover,
 button.theme-btn.light:focus,
 .theme-btn:hover,
 .theme-btn.light:hover {
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
     border: 1px solid transparent !important;
     color: white !important;
 }
 
 a.theme-btn:hover {
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
     border: 1px solid transparent !important;
 }
 
@@ -2719,7 +2720,7 @@ a.theme-btn:hover {
     bottom: 21px;
     right: 40%;
     display: block;
-    background: #e7a1ac;
+    background: #f75c74;
     font-size: 22px !important;
     border-radius: 3px;
     font-weight: 500 !important;
@@ -2740,9 +2741,11 @@ a.theme-btn:hover {
 }
 
 .address-btn {
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
     color: white !important;
     border: 0 !important;
+    height: 32px;
+    width: 88px;
 }
 
 /* pop modal for checkout FBO end */
@@ -2795,7 +2798,7 @@ a.theme-btn:hover {
 .form-container .container .register-btn {
     width: 200px;
     color: white !important;
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
     font-family: "Poppins";
     font-weight: 500;
     font-size: 22px;
@@ -2819,7 +2822,7 @@ a.theme-btn:hover {
 .fbo-details .fbo-btn {
     width: 20rem;
     color: white !important;
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
     font-family: "Poppins";
     font-weight: 500;
     font-size: 20px;
@@ -2828,7 +2831,7 @@ a.theme-btn:hover {
 }
 
 .fbo-details .fbo-btn:hover {
-    background: #e7a1ac !important;
+    background: #f75c74 !important;
 }
 
 /* 10-06-2024 z-index for headers */
@@ -7493,7 +7496,7 @@ ul.footer-links {
 .add_button,
 .OptionsAddButton {
     background-color: white !important;
-    border: 1px solid #e7a1ac !important;
+    border: 1px solid #f75c74 !important;
     margin-top: 6px;
     width: 100%;
     height: 40px;
@@ -7503,9 +7506,9 @@ ul.footer-links {
 
 .AddButton .add_button:hover,
 .OptionsAddButton:hover {
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
     color: white;
-    border: 1px solid #e7a1ac;
+    border: 1px solid #f75c74;
 }
 
 
@@ -8210,7 +8213,7 @@ margin-top: 5px !important;
 .container .customization-card .form-group .sendbutton{
     width: 20rem;
     color: white !important;
-    background-color: #e7a1ac !important;
+    background-color: #f75c74 !important;
     font-family: "Poppins";
     font-weight: 500;
     font-size: 20px;
@@ -8289,7 +8292,7 @@ margin-top: 5px !important;
     height: 40px;
     width: 200px;
     border: 0;
-    background-color: #e7a1ac;
+    background-color: #f75c74;
     color: white;
     border-radius: 5px;
     font-size: 13px;
@@ -8620,7 +8623,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .enquiry-button .custom-enquiry-button {
     display: inline-block;
-    background-color: #e7a1ac;
+    background-color: #f75c74;
     color: white;
     padding: 15px 40px;
     border: none;
