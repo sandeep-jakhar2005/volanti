@@ -7,6 +7,32 @@ return [
     'enabled' => env('RESPONSE_CACHE_ENABLED', true),
 
     /*
+    |--------------------------------------------------------------------------
+    | Excluded Paths (Do Not Cache)
+    |--------------------------------------------------------------------------
+    */
+    'excluded_paths' => [
+        'checkout*',
+        'cart*',
+        'wishlist*',
+        'customer/*',
+        'login',
+        'logout',
+        'register',
+        'api/*',
+        'admin/*',
+        '_debugbar*',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Excluded Methods (POST, PUT, DELETE should NEVER be cached)
+    |--------------------------------------------------------------------------
+    */
+    'excluded_methods' => ['POST', 'PUT', 'PATCH', 'DELETE'],
+
+
+    /*
      *  The given class will determinate if a request should be cached. The
      *  default class will cache all successful GET-requests.
      *
