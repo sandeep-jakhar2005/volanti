@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Webkul\Core\Http\Middleware\SecureHeaders::class,
+        \Spatie\ResponseCache\Middlewares\CacheResponse::class,
     ];
 
     /**
@@ -65,5 +66,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'cart.merger' => \Webkul\Checkout\Http\Middleware\CartMerger::class,
         'check.order.assignment' => \App\Http\Middleware\checkDeliveryOrderAssign::class,
+        'doNotCacheResponse' => \Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
+
     ];
 }

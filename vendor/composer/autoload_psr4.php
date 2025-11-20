@@ -84,6 +84,7 @@ return array(
     'Spatie\\TemporaryDirectory\\' => array($vendorDir . '/spatie/temporary-directory/src'),
     'Spatie\\Sitemap\\' => array($vendorDir . '/spatie/laravel-sitemap/src'),
     'Spatie\\Robots\\' => array($vendorDir . '/spatie/robots-txt/src'),
+    'Spatie\\ResponseCache\\' => array($vendorDir . '/spatie/laravel-responsecache/src'),
     'Spatie\\LaravelPackageTools\\' => array($vendorDir . '/spatie/laravel-package-tools/src'),
     'Spatie\\LaravelIgnition\\' => array($vendorDir . '/spatie/laravel-ignition/src', $vendorDir . '/spatie/error-solutions/legacy/laravel-ignition'),
     'Spatie\\Image\\' => array($vendorDir . '/spatie/image/src'),
